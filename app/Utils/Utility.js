@@ -3,6 +3,7 @@
  */
 var connectivity = require("connectivity");
 var connectionType = connectivity.getConnectionType();
+var applicationSettings = require("application-settings");
 exports.Util = function () {
     return {
         Connectivity: function (callback) {
@@ -47,6 +48,10 @@ exports.Util = function () {
 
         , StopMonitor: function () {
             connectivity.stopMonitoring();
+        }
+
+        ,getServer : function () {
+            return applicationSettings.getString("server");
         }
     }
 };

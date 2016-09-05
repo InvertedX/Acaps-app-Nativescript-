@@ -3,18 +3,21 @@
     <StackLayout>
         <StackLayout height="250" width="100%" backgroundColor="#FB5F5D">
         </StackLayout>
-        <TextField
-                style="margin: 25;margin-top: 50"
-                id="email_address"
-                hint="Login Id"
-                text="{{id}}"
-                keyboardType="text"/>
-        <TextField
-                text="{{ password}}"
-                style="margin: 25"
-                id="password"
-                keyboardType="text"
-                secure="true" hint="Password"/>
-        <Button id="redButton" width="150" tap="{{ login }}" text="Login"/>
+        <ActivityIndicator id="spinner" busy="{{ isLoading }}"/>
+        <StackLayout>
+            <TextField
+                    style="margin: 25;margin-top:20"
+                    id="email_address"
+                    hint="Login Id"
+                    text="{{id}}"
+                    keyboardType="text"/>
+            <TextField
+                    text="{{ password}}"
+                    style="margin: 25"
+                    id="password"
+                    keyboardType="text"
+                    secure="true" hint="Password"/>
+            <Button id="redButton" width="150" tap="{{ login }}" text="Login"/>
+        </StackLayout>
     </StackLayout>
 </Page>

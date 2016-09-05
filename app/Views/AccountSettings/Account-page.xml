@@ -1,0 +1,7 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" actionBarHidden="true"
+      navigatingTo="onNavigatingTo">
+    <StackLayout>
+
+
+    </StackLayout>
+</Page>

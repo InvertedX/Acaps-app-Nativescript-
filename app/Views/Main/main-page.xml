@@ -1,7 +1,6 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
     <Page.actionBar>
-        <ActionBar style="color:white" title="Hello" />
+        <ActionBar  height="350" style="color:white" title="Initializing" />
     </Page.actionBar>
-    <ActivityIndicator busy="{{ isLoading }}"/>
-
+    <ActivityIndicator style="margin: 160" busy="true"/>
 </Page>

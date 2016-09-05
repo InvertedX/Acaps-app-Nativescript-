@@ -1,0 +1,26 @@
+{
+  "description": "NativeScript Application",
+  "license": "SEE LICENSE IN <your-license-filename>",
+  "readme": "NativeScript Application",
+  "repository": "<fill-your-repository-here>",
+  "nativescript": {
+    "id": "com.zealmotion.Acaps",
+    "tns-android": {
+      "version": "2.2.0"
+    }
+  },
+  "dependencies": {
+    "google-geocoding": "^0.1.7",
+    "tns-core-modules": "2.2.1"
+  },
+  "scripts": {
+    "livesync": "tns livesync android --watch",
+    "Deploy": "tns run android"
+  },
+  "devDependencies": {
+    "babel-traverse": "6.15.0",
+    "babel-types": "6.15.0",
+    "babylon": "6.9.1",
+    "lazy": "1.0.11"
+  }
+}

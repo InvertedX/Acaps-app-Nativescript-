@@ -1,0 +1,9 @@
+
+#redButton {
+    background-color: #fc5555;
+    color: white;
+}
+#redButton:focus {
+    background-color: #dd4949;
+    color: #d5d5d5;
+}

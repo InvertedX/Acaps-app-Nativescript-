@@ -1,0 +1,24 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo"   >
+
+    <ActionBar style="color: white">
+
+     </ActionBar>
+    <StackLayout>
+        <Progress value="{{ progress }}" maxValue="100" cssClass="progress"  visibility="{{progressvisibi}}"/>
+        <TextField
+                style="margin: 25;margin-top:20"
+                id="email_address"
+                hint="Search loaction"
+                text="{{loactionSearch}}"
+                keyboardType="text"/>
+
+        <ListView cssClass="Listview" items="{{ locations }}" itemTap="{{listViewItemTap}}">
+            <ListView.itemTemplate>
+                <StackLayout cssClass="Listviewitem"  >
+                    <label cssClass="description" text="{{description}}" textWrap="true"/>
+                </StackLayout>
+            </ListView.itemTemplate>
+        </ListView>
+
+    </StackLayout>
+</Page>

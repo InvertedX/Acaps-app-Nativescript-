@@ -1,14 +1,16 @@
- var buttonModule = require('ui/button');
+var buttonModule = require('ui/button');
 var application = require("application");
+var viewModel = require("./Home-viewmodal").createViewModel;
+var dialog = require("ui/dialogs");
 
 function onNavigatingTo(args) {
     var page = args.object;
-    if (application.android) {
-        application.android.on(application.AndroidApplication.activityBackPressedEvent, function (args) {
-           console.log("Back");
-            args.cancel = true;
-            args.activity.finish();
-        });
+    console.log("context",JSON.stringify(page.navigationContext));
+    if(page.navigationContext){
+        page.bindingContext = page.navigationContext;
+    }else {
+        page.bindingContext = viewModel();
+
     }
 }
 

@@ -1,29 +1,10 @@
-<Page xmlns="http://schemas.nativescript.org/tns.xsd" actionBarHidden="true"
+<Page xmlns="http://schemas.nativescript.org/tns.xsd"
       navigatingTo="onNavigatingTo">
     <StackLayout>
-        <drawer:SideDrawer id="drawer1">
-            <drawer:SideDrawer.mainContent>
+        <label text="{{shits}}"/>
+        <Button text="Offer ride" tap="{{offerride}}"/>
 
-                <!-- Place your page content here -->
-                <StackLayout>
-                    <Button  text="ToggleDrawer"/>
-                </StackLayout>
-            </drawer:SideDrawer.mainContent>
+        <Button text="Find ride" tap="{{findride}}"/>
 
-            <drawer:SideDrawer.drawerContent>
-                <StackLayout cssClass="drawerContent">
-                    <StackLayout cssClass="headerContent">
-                        <Label text="Drawer Header"/>
-                    </StackLayout>
-
-                    <StackLayout cssClass="drawerMenuContent">
-                        <Label text="Item 1"/>
-                        <Label text="Item 2"/>
-                        <Label text="Item 3"/>
-                        <Label text="Item 4"/>
-                    </StackLayout>
-                </StackLayout>
-            </drawer:SideDrawer.drawerContent>
-        </drawer:SideDrawer>
     </StackLayout>
 </Page>

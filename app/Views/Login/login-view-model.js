@@ -39,8 +39,8 @@ function createViewModel() {
                     frame.topmost().navigate('/Views/AccountSettings/Account-page');
                 }
             }, function (err) {
-                console.log("RPLS E")
-                console.log(err);
+                viewModel.set('isLoading', false);
+                alert("Acaps encountered an error trying to connect to the server.please try again");
             });
 
 

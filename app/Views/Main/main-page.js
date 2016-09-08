@@ -3,6 +3,7 @@ var Const = require('../../Utils/Const').Const;
 var applicationSettings = require("application-settings");
 var frame = require('ui/frame');
 var http = require("http");
+var Page = require("ui/page");
 var dialogs = require("ui/dialogs");
 var Observable = require("data/observable").Observable;
 var activityIndicatorModule = require("ui/activity-indicator");
@@ -21,11 +22,22 @@ function onNavigatingTo(args) {
         if (key == undefined || key == null) {
             var topmost = frame.topmost();
             topmost.transition = {name: "slideBottom"};
-            frame.topmost().navigate('/Views/Login/Login-page');
+            var navigationEntry = {
+                moduleName: '/Views/Login/Login-page',
+                clearHistory: true
+            };
+            topmost.navigate(navigationEntry);
         } else {
+
             var topmost = frame.topmost();
+            var navigationEntry = {
+                moduleName: '/Views/Home/Home-page',
+                clearHistory: true
+            };
             topmost.transition = {name: "slideTop"};
-            frame.topmost().navigate('/Views/Home/Home-page');
+
+            topmost.navigate(navigationEntry);
+
         }
     }, function (e) {
         dialogs.alert("Network Error");

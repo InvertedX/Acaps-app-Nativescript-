@@ -3,4 +3,5 @@
     <color name="ac_primary">#fc5555</color>
 	<color name="ac_primaryDark">#fe5353</color>
 	<color name="ac_accent">#96aaf5</color>
+	<color name="ac_cloudwhite">#ecf0f1</color>
  </resources>

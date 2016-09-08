@@ -21,7 +21,7 @@ function onNavigatingTo(args) {
         console.log("KEY", key);
         if (key == undefined || key == null) {
             var topmost = frame.topmost();
-            topmost.transition = {name: "slideBottom"};
+            topmost.transition = {name: "fade"};
             var navigationEntry = {
                 moduleName: '/Views/Login/Login-page',
                 clearHistory: true
@@ -34,7 +34,7 @@ function onNavigatingTo(args) {
                 moduleName: '/Views/Home/Home-page',
                 clearHistory: true
             };
-            topmost.transition = {name: "slideTop"};
+            topmost.transition = {name: "fade"};
 
             topmost.navigate(navigationEntry);
 

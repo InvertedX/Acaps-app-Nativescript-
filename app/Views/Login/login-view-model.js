@@ -33,10 +33,19 @@ function createViewModel() {
                 if (response.statusCode != 200) {
                     alert("Invalid credentials,please try again")
                 } else {
-                    var token = JSON.parse(response.content).token;
-                    console.log(token);
+                    var response = JSON.parse(response.content);
+                    var token = response.token;
+                     
                     applicationSettings.setString('s_key', token);
-                    frame.topmost().navigate('/Views/AccountSettings/Account-page');
+                     if(response.isnew==true){
+
+                         frame.topmost().navigate('/Views/AccountSettings/Account-page');
+
+                     }else {
+                         console.log("Spot ")
+                         frame.topmost().navigate('/Views/Home/Home-page');
+
+                     }
                 }
             }, function (err) {
                 viewModel.set('isLoading', false);

@@ -1,7 +1,7 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd"
       navigatingTo="onNavigatingTo">
     <StackLayout>
-        <label text="{{shits}}"/>
+        <label text="{{shits.short_name}}"/>
         <Button text="Offer ride" tap="{{offerride}}"/>
 
         <Button text="Find ride" tap="{{findride}}"/>

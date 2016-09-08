@@ -1,6 +1,8 @@
-<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
-    <Page.actionBar>
-        <ActionBar  height="350" style="color:white" title="Initializing" />
-    </Page.actionBar>
-    <ActivityIndicator style="margin: 160" busy="true"/>
+<Page
+        backgroundColor="#ecf0f1"
+        xmlns="http://schemas.nativescript.org/tns.xsd"
+        navigatingTo="onNavigatingTo">
+
+    <ActivityIndicator width="50" busy="isLoading"/>
+
 </Page>

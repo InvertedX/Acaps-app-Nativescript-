@@ -7,12 +7,7 @@ var ViewModel = require('./Offer-Ride-VM').createViewModel;
 function onNavigatingTo(args) {
     var page = args.object;
     page.bindingContext = ViewModel();
-    if (application.android) {
-        application.android.on(application.AndroidApplication.activityBackPressedEvent, function (args) {
-             
-            
-        });
-    }
+
 
 }
 

@@ -1,7 +1,6 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo"   >
 
     <ActionBar style="color: white">
-
      </ActionBar>
     <StackLayout>
         <Progress value="{{ progress }}" maxValue="100" cssClass="progress"  visibility="{{progressvisibi}}"/>

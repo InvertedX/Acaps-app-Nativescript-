@@ -30,7 +30,6 @@ function placeFinder(placeId, callback) {
             short_name:r.result.address_components[0].short_name,
             long_name:r.result.address_components[0].long_name
         };
-        console.log(JSON.stringify(place));
         callback(place);
     }, function () {
 

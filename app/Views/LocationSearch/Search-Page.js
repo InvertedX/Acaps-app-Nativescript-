@@ -6,12 +6,13 @@ var frame = require('ui/frame');
 var listViewModule = require("ui/list-view");
 var Observable = require("data/observable");
 var labelModule = require("ui/label");
-var viewModel = require("./Search-view-model").createViewModel;
+var createViewModel = require("./Search-view-model").createViewModel;
 
 function onNavigatingTo(args) {
     var page = args.object;
-     page.bindingContext = viewModel( );
-    if (application.android) {
+    var context = page.navigationContext;  
+    page.bindingContext = createViewModel(context);
+     if (application.android) {
         application.android.on(application.AndroidApplication.activityBackPressedEvent, function (args) {
             args.cancel = true;
             frame.topmost().transition = {name: "slideLeft"};

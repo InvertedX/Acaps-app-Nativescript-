@@ -16,8 +16,7 @@ function navready(args) {
 
 function onMapReady(args) {
     var mapView = args.object;
-    console.log("Setting a marker...");
-
+    console.log("Setting a marker..."); 
 
     DirectionParser("kayamkulam", "kochi", mapsModule, function (data, poly) {
         console.log(poly);

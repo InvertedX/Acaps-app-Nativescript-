@@ -13,7 +13,7 @@ var ObseravableArray = require("data/observable-array");
 var googleServerApiKey = "AIzaSyAJsjpzjoI4d7QIm9fNse2-IUXrhhe2_Ys "
 var listViewModule = require("ui/list-view");
 
-function createViewModel() {
+function createViewModel(context) {
     var viewModel = new Observable();
     viewModel.locations = new ObseravableArray.ObservableArray([]);
     viewModel.loactionSearch = "";
@@ -40,8 +40,20 @@ function createViewModel() {
         });
 
     viewModel.listViewItemTap = function (args) {
-        GPlaces.getplace(viewModel.locations.getItem(args.index).place_id, function () {
+        GPlaces.getplace(viewModel.locations.getItem(args.index).place_id, function (place) {
+            console.log('CALLBACKED');
 
+            context[context.payload] = place;
+            topmost.transition = {name: "slideLeft"};
+            try {
+                topmost.navigate({
+                    moduleName: context.result_to_who,
+                    context: context
+                });
+
+            } catch (er) {
+                console.error(er);
+            }
         });
     };
     return viewModel;

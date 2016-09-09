@@ -42,9 +42,18 @@ function createViewModel(context) {
     viewModel.listViewItemTap = function (args) {
         GPlaces.getplace(viewModel.locations.getItem(args.index).place_id, function (place) {
             console.log('CALLBACKED');
-
             context[context.payload] = place;
-            topmost.transition = {name: "slideLeft"};
+            if (context.payload == "source") {
+                context.rideData.source = place.short_name;
+                context.rideData.source_id = place.place_id;
+                context.rideData.source_lat_lng = place.place_id;
+            } else if (context.payload == "destination") {
+                context.rideData.destination = place.short_name;
+                context.rideData.destination_id = place.place_id;
+                context.rideData.destination_lat_lng = place.place_id;
+            }
+
+            topmost.transition = {name: "slideRight"};
             try {
                 topmost.navigate({
                     moduleName: context.result_to_who,

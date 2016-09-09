@@ -6,8 +6,13 @@ var application = require("application");
 var ViewModel = require('./Offer-Ride-VM').createViewModel;
 function onNavigatingTo(args) {
     var page = args.object;
-    page.bindingContext = ViewModel();
+    page.cssFile = "Offer-Ride.css";
+    if (page.navigationContext) {
+        page.bindingContext = ViewModel(page, page.navigationContext);
+    } else {
+        page.bindingContext = ViewModel(page, null);
 
+    }
 
 }
 

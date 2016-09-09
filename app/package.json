@@ -9,13 +9,7 @@
   "description": " ",
   "license": "Apache-2.0",
   "keywords": [
-    "telerik",
-    "mobile",
-    "nativescript",
-    "{N}",
-    "tns",
-    "appbuilder",
-    "template"
+
   ],
   "android": {
     "v8Flags": "--expose_gc"

@@ -9,13 +9,13 @@ var polylineParser = require('polyline');
 
 function ParseDirections(Source, Destination, module, fll) {
     var API_URL = "https://maps.googleapis.com/maps/api/directions/json?";
-    API_URL += "&origin=" + Source;
+    API_URL += "&origin=place_id:" + Source;
     API_URL += "&key=" + API_KEY;
-    API_URL += "&destination=" + Destination;
-    API_URL += "&waypoints=" + "mysuru";
+    API_URL += "&destination=place_id:" + Destination;
+    API_URL += "&waypoints=place_id:" + Destination;
     console.log(API_URL);
     http.getJSON(API_URL).then(function (data) {
-        fll(data, LegsItrator(data.routes[0], module));
+        fll(data, LegsItrator(data.routes[0],  module),distance(data.routes[0].legs));
     }, function (error) {
         console.log(error);
     });
@@ -33,22 +33,21 @@ function LegsItrator(Routes, module) {
         polyline.geodesic = true;
         console.log("POLY");
         console.log(JSON.stringify(polyline));
-        return polyline;
 
-        /*
-         return new Promise(function (resolve, reject) {
-         var steps = [];
-         console.log("promise");
-
-         });
-         */
-
+        return polyline; 
 
     } catch (err) {
         console.log(err);
     }
 
 
+}
+function distance(legs) {
+    var distance = 0;
+    legs.forEach(function (data) {
+        distance = data.distance.value + distance;
+    });
+    return Math.round(distance/1000);
 }
 
 exports.Parse = ParseDirections;

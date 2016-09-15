@@ -12,58 +12,62 @@ var GPlaces = require("./LocationSearch");
 var ObseravableArray = require("data/observable-array");
 var googleServerApiKey = "AIzaSyAJsjpzjoI4d7QIm9fNse2-IUXrhhe2_Ys "
 var listViewModule = require("ui/list-view");
+var searchBarModule = require("ui/search-bar");
+var utils = require("utils/utils")
 
-function createViewModel(context) {
+var Callback;
+var progress, listview;
+var android;
+function createViewModel(callback, page) {
+
+    if (page.android) {
+        var imm = utils.ad.getInputMethodManager();
+ 
+    }
     var viewModel = new Observable();
+    Callback = callback;
+    progress = page.getViewById("progress");
+    listview = page.getViewById("listlocations");
+    progress.visibility = "collapse";
     viewModel.locations = new ObseravableArray.ObservableArray([]);
+    viewModel.progressvisibile = "collapse";
     viewModel.loactionSearch = "";
-    viewModel.progress = 0;
-    viewModel.progressvisibi = "collapse";
     listViewModule =
         viewModel.on(Observable.propertyChangeEvent, function (propertyChangeData) {
             if (propertyChangeData.propertyName == 'loactionSearch') {
-                viewModel.set('progressvisibi', "visible");
-                viewModel.set('progress', 15);
-                GPlaces.find(propertyChangeData.value, function (data) {
-                    viewModel.locations.splice(0, viewModel.locations.length);
-                    viewModel.set('progress', 40);
-                    data.forEach(function (data) {
-                        viewModel.locations.push(data);
-                    });
-                    viewModel.set('progress', 100);
-                    setTimeout(function () {
-                        viewModel.set('progressvisibi', "collapse");
-                    }, 800);
+                if (propertyChangeData.value.length > 1) {
+                    progress.visibility = "visible";
+                    listview.visibility = "collapse";
+                    GPlaces.find(propertyChangeData.value, function (data) {
+                        viewModel.locations.splice(0, viewModel.locations.length);
+                        progress.visibility = "collapse";
+                        listview.visibility = "visible";
+                        data.forEach(function (data) {
+                            viewModel.locations.push(data);
+                        });
 
-                });
+                    });
+
+                }
             }
         });
 
     viewModel.listViewItemTap = function (args) {
-        GPlaces.getplace(viewModel.locations.getItem(args.index).place_id, function (place) {
-            console.log('CALLBACKED');
-            context[context.payload] = place;
-            if (context.payload == "source") {
-                context.rideData.source = place.short_name;
-                context.rideData.source_id = place.place_id;
-                context.rideData.source_lat_lng = place.place_id;
-            } else if (context.payload == "destination") {
-                context.rideData.destination = place.short_name;
-                context.rideData.destination_id = place.place_id;
-                context.rideData.destination_lat_lng = place.place_id;
-            }
+        console.log("CKD");
+        try {
+            GPlaces.getplace(viewModel.locations.getItem(args.index).place_id, function (place) {
+                var rideData;
+                rideData = {
+                    placename: place.short_name,
+                    place_id: place.place_id,
+                    place_id_lat_lng: place.location
+                };
+                callback(rideData);
 
-            topmost.transition = {name: "slideRight"};
-            try {
-                topmost.navigate({
-                    moduleName: context.result_to_who,
-                    context: context
-                });
-
-            } catch (er) {
-                console.error(er);
-            }
-        });
+            });
+        } catch (ee_) {
+            console.log(ee_);
+        }
     };
     return viewModel;
 
@@ -72,3 +76,7 @@ function createViewModel(context) {
 
 
 exports.createViewModel = createViewModel;
+exports.onDismiss = function () {
+    console.log("CALLBACKED");
+    callback(null);
+};

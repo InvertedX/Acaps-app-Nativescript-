@@ -5,8 +5,8 @@ var Observable = require("data/observable").Observable;
 var frame = require('ui/frame');
 var animation = require("ui/animation");
 var enums = require("ui/enums");
-var moment = require("moment");
 var topmost = frame.topmost();
+
 function createViewModel(page, model) {
     var viewModel;
     if (model) {
@@ -14,56 +14,57 @@ function createViewModel(page, model) {
         console.log(JSON.stringify(viewModel.rideData));
     } else {
         viewModel = new Observable();
-        viewModel.rideData = {
+        viewModel.rideData = new Observable({
             source: "Choose",
             source_id: "",
-            source_lat_lng: [],
+            source_lat_lng: {},
             destination: "Choose",
             destination_id: "",
-            destination_lat_lng: []
-        };
+            destination_lat_lng: {},
+            waypoints: []
+        });
     }
     viewModel.destination = "To";
+    viewModel.time = new Date();
+    viewModel.date = new Date();
     viewModel.minDate = new Date();
     viewModel.Maxdate = new Date(moment(new Date()).add(2, "y").format());
     console.log(viewModel.Maxdate);
     viewModel.container = page.getViewById('timeContainer');
     viewModel.chooseSource = function () {
-        topmost.transition = {name: "slideLeft"};
-        viewModel.payload = "source";
-        viewModel.result_to_who = "/Views/Offer-Ride/Offer-Ride";
-        topmost.navigate({
-            moduleName: "/Views/LocationSearch/Search-Page",
-            context: viewModel
-        });
+      
+
     };
     viewModel.chooseDesination = function () {
-        topmost.transition = {name: "slideLeft"};
-        viewModel.payload = "destination";
-        viewModel.result_to_who = "/Views/Offer-Ride/Offer-Ride";
-        topmost.navigate({
-            moduleName: "/Views/LocationSearch/Search-Page",
-            context: viewModel
-        });
+
+        var modalPageModule = "/Views/LocationSearch/Search-Page";
+        var context = {
+            type: "source"
+        };
+        var fullscreen = false;
+        page.showModal(modalPageModule, context, function closeCallback(data) {
+            if (data) {
+
+                viewModel.rideData.destination = data.placename;
+                viewModel.rideData.destination_id = data.place_id;
+                viewModel.rideData.destination_lat_lng = data.place_id_lat_lng;
+                console.log(JSON.stringify(viewModel.rideData));
+            }
+        }, fullscreen);
+
     };
     viewModel.nextClick = function () {
-       console.log(viewModel.date);
-       console.log(viewModel.time);
+
+        var time = new moment(viewModel.date);
+        time.hour(viewModel.time.getHours());
+        time.minute(viewModel.time.getMinutes());
+        topmost.transition = {name: "slideLeft"};
+        topmost.navigate({
+            moduleName: '/Views/Offer-Ride/Final/Final-Page',
+            context: viewModel
+        });
     };
     return viewModel;
 }
 
-function timeAdd(date,date2) {
-     var dateMillis = date.getTime();
-
-     var timePeriod = "00:15:00"; //I assume this is 15 minutes, so the format is HH:MM:SS
-
-    var parts = timePeriod.split(/:/);
-    var timePeriodMillis = (parseInt(parts[0], 10) * 60 * 60 * 1000) +
-        (parseInt(parts[1], 10) * 60 * 1000) +
-        (parseInt(parts[2], 10) * 1000);
-
-    var newDate = new Date();
-    newDate.setTime(dateMillis + timePeriodMillis);
-}
 exports.createViewModel = createViewModel;

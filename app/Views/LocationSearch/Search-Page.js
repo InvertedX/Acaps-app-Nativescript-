@@ -10,18 +10,10 @@ var createViewModel = require("./Search-view-model").createViewModel;
 
 function onNavigatingTo(args) {
     var page = args.object;
-    var context = page.navigationContext;  
-    page.bindingContext = createViewModel(context);
-     if (application.android) {
-        application.android.on(application.AndroidApplication.activityBackPressedEvent, function (args) {
-            args.cancel = true;
-            frame.topmost().transition = {name: "slideLeft"};
-            frame.topmost().navigate({
-                moduleName: '/Views/Home/Home-page',
-             });
-
-        });
-    }
+    var context = args.context;
+    context.callback= args.closeCallback;
+    page.bindingContext = createViewModel(args.closeCallback,page);
+    
 }
 
 exports.onNavigatingTo = onNavigatingTo;

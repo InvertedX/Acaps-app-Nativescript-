@@ -1,4 +1,7 @@
-﻿.material-icon {
+﻿@import 'css/core.light.android.css';
+@import 'css/core.light.ios.css';
+
+.material-icon {
     font-family: 'material_icons';
     font-size: 48;
 }

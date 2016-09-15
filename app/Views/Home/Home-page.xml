@@ -1,10 +1,48 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd"
-      navigatingTo="onNavigatingTo">
-    <StackLayout>
-        <label text="{{shits.short_name}}"/>
-        <Button text="Offer ride" tap="{{offerride}}"/>
+      navigatingTo="onNavigatingTo" xmlns:Card="nativescript-cardview">
+    <Page.actionBar>
+        <ActionBar style="color: white;" title="Acaps">
+        </ActionBar>
+    </Page.actionBar>
 
-        <Button text="Find ride" tap="{{findride}}"/>
+    <StackLayout orientation="vertical" style="margin-top: 25">
+        <Card:CardView horizontalAlignment="center" margin="15" elevation="8" radius="5">
+            <StackLayout>
+                <GridLayout cssClass="cardview" columns="50, 30, *" rows="auto, auto">
+                    <Label col="0" cssClass="text-danger" style=" margin-top: 12"
+                           text="To"
+                    />
+                    <Label col="1" style=" margin-top: 15" cssClass="source_icon"
+                           text="&#xE40C;"/>
 
+                    <Button col="2" cssClass="choosebox" tap="{{AddSource}}" text="{{RideInfo.source}}"/>
+
+                    <Label row="1" text="From" style=" margin-top: 12" col="0"
+                    />
+
+                    <Label row="1" style=" margin-top: 15" col="1" class="destination_icon"
+                           text="&#xE0C8;"/>
+
+                    <Button row="1" col="2" cssClass="choosebox" tap="{{AddDestination}}"
+                            text="{{RideInfo.destination}}"/>
+
+                </GridLayout>
+                <GridLayout id="dateGrid" cssClass="cardview" columns="50, 30, *" rows="auto, auto">
+                    <Label col="0" style="color: black ;margin-top: 15" text="Date"/>
+
+                    <Label col="1" style=" margin-top: 15" cssClass="source_icon"
+                           text="&#xE916;"/>
+                    <Button  tap="{{OpendatePicker}}"   cssClass="choosebox"   col="2" style="color: #2a313b; text-transform: lowercase"
+                              text="{{RideInfo.Date}}"/>
+                </GridLayout>
+
+            </StackLayout>
+
+        </Card:CardView>
+        <StackLayout margin="15" marginTop="5">
+            <Button tap="{{ findRide }}" class="btn btn-primary btn-outline" text="Find Ride"/>
+            <Button tap="{{ offerRide }}" class="btn   btn-primary  btn-outline" text="Offer Ride"/>
+        </StackLayout>
     </StackLayout>
+
 </Page>

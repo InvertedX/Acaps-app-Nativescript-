@@ -1,20 +1,15 @@
-.Listview {
-    margin-left: 25;
-    margin-right: 25;
-}
+
 
 .Listviewitem {
-    margin-left: 15;
-    margin-right: 15;
+
     margin-top: 0;
-    background-color: aliceblue;
-}
+ }
 .progress{
     color: #39d179;
 }
 .description {
     margin : 10;
     font-size: 16;
-    margin-top: 25;
+    margin-top: 15;
 
 }

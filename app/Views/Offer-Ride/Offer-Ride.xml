@@ -4,35 +4,47 @@
 
     </action-bar>
     <ScrollView>
-        <StackLayout>
-            <GridLayout cssClass="cardview" columns="50, 30, *" rows="auto, auto">
+        <StackLayout marginTop="15" xmlns:Card="nativescript-cardview">
+            <Card:CardView margin="5" elevation="8" radius="5">
+                <GridLayout cssClass="cardview" columns="50, 30, *" rows="auto, auto">
 
-                <Label col="0" style=" margin-top: 12"
-                       text="To"
-                />
+                    <Label col="0" style=" margin-top: 12"
+                           text="To"
+                    />
 
-                <Label col="1" style=" margin-top: 15" cssClass="source_icon"
-                       text="&#xE40C;"/>
+                    <Label col="1" style=" margin-top: 15" cssClass="source_icon"
+                           text="&#xE40C;"/>
 
-                <Label col="2" cssClass="choosebox" tap="{{chooseSource}}" text="{{rideData.source}}"/>
+                    <Button col="2" cssClass="choosebox" tap="{{chooseSource}}" text="{{rideData.source}}"/>
 
 
-                <Label row="1" text="From" style=" margin-top: 12" col="0"
-                />
+                    <Label row="1" text="From" style=" margin-top: 12" col="0"
+                    />
 
-                <Label row="1" style=" margin-top: 15" col="1" class="destination_icon"
-                       text="&#xE0C8;"/>
+                    <Label row="1" style=" margin-top: 15" col="1" class="destination_icon"
+                           text="&#xE0C8;"/>
 
-                <Label row="1" col="2" cssClass="choosebox" tap="{{chooseDesination}}" text="{{rideData.destination}}"/>
-            </GridLayout>
-            <StackLayout id="timeContainer" cssClass="cardview">
-                <label text="Choose Ride time"/>
-                <time-picker time="{{ time }}" />
-            </StackLayout>
-            <StackLayout cssClass="cardview">
-                <label text="Choose Ride Date"/>
-                <date-picker minDate="{{minDate}}" maxDate="{{Maxdate}}" date="{{date}}"/>
-            </StackLayout>
+                    <Button row="1" col="2" cssClass="choosebox" tap="{{chooseDesination}}"
+                            text="{{rideData.destination}}"/>
+                </GridLayout>
+            </Card:CardView>
+            <Card:CardView margin="5"  elevation="8" radius="5">
+
+            </Card:CardView>
+
+            <Card:CardView shadowOpacity="0.4" margin="5" elevation="8" radius="5">
+                <StackLayout id="timeContainer" cssClass="cardview">
+                    <label text="Choose Ride time"/>
+                    <time-picker time="{{ time }}"/>
+                </StackLayout>
+            </Card:CardView>
+            <Card:CardView margin="5" elevation="8" radius="5">
+
+                <StackLayout cssClass="cardview">
+                    <label text="Choose Ride Date"/>
+                    <date-picker minDate="{{minDate}}" maxDate="{{Maxdate}}" date="{{date}}"/>
+                </StackLayout>
+            </Card:CardView>
             <Button cssClass="greenbtn" tap="{{nextClick}}" text="Next"/>
         </StackLayout>
     </ScrollView>

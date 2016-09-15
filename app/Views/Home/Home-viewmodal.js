@@ -4,30 +4,78 @@
 
 var Observable = require("data/observable").Observable;
 var frame = require('ui/frame');
-
-function createViewModel() {
+var PickerManager = require("nativescript-timedatepicker");
+var LocationSearch = "/Views/LocationSearch/Search-Page";
+var fullscreen_modal = false;
+var moment = require('moment');
+function createViewModel(page) {
     var topmost = frame.topmost();
     var viewModel = new Observable();
+    var dateView = page.getViewById("dateGrid");
+    dateView.visibility = "collapsed";
+    viewModel.RideInfo = new Observable({
+        source: "Choose",
+        source_id: "",
+        source_lat_lng: {},
+        destination: "Choose",
+        destination_id: "",
+        destination_lat_lng: {},
+        waypoints: [],
+        Date: "dd-mm-yyyy",
+        DateStamp: null
+    });
 
-    viewModel.offerride = function () {
-        topmost.transition = {name: "slideRight"};
-        topmost.navigate('/Views/Offer-Ride/Offer-Ride')
+    viewModel.AddSource = function () {
+        page.showModal(LocationSearch, {}, function closeCallback(data) {
+            if (data) {
+                viewModel.RideInfo.source = data.placename;
+                viewModel.RideInfo.source_id = data.place_id;
+                viewModel.RideInfo.source_lat_lng = data.place_id_lat_lng;
+                if (viewModel.RideInfo.destination != "Choose") {
+                    dateView.visibility = "visible"
+                }
+
+            }
+        }, fullscreen_modal);
+
+    };
+    viewModel.AddDestination = function () {
+        page.showModal(LocationSearch, {}, function closeCallback(data) {
+            if (data) {
+                viewModel.RideInfo.destination = data.placename;
+                viewModel.RideInfo.destination_id = data.place_id;
+                viewModel.RideInfo.destination_lat_lng = data.place_id_lat_lng;
+                if (viewModel.RideInfo.source != "Choose") {
+                    dateView.visibility = "visible"
+                }
+                console.log(JSON.stringify(viewModel.Location));
+            }
+        }, fullscreen_modal);
+
+
+    };
+    viewModel.OpendatePicker = function () {
+
+        PickerManager.init(function (date) {
+            if (date) {
+                var timestamp = new moment(date, "DD MM YYYY HH:mm z");
+                var SelectedDate = new Date(timestamp);
+                var momentIns = new moment(SelectedDate);
+                viewModel.RideInfo.set('Date', momentIns.format("LL"));
+                viewModel.RideInfo.set('DateStamp', timestamp);
+            }
+
+        }, null, null, "Apply", "NotApply");
+
+        PickerManager.showDatePickerDialog();
+    };
+    viewModel.findRide = function () {
 
     };
 
+    viewModel.offerRide = function () {
 
-    viewModel.findride = function () {
-      /*  topmost.transition = {name: "slideLeft"};
-        viewModel.payload = "shits";
-
-        viewModel.result_to_who = "/Views/Home/Home-page";
-        topmost.navigate({
-            moduleName: "/Views/LocationSearch/Search-Page",
-            context: viewModel
-        });*/
-        topmost.navigate('/Views/Find-Ride/Find-Ride')
     };
-
     return viewModel;
 
 

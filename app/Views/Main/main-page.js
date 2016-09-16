@@ -14,15 +14,7 @@ function onNavigatingTo(args) {
     viewModel.isLoading = true;
     var indicator = new activityIndicatorModule.ActivityIndicator();
     indicator.busy = true;
-    page.bindingContext = viewModel;
-    var topmost = frame.topmost();
-    topmost.transition = {name: "fade"};
-    var navigationEntry = {
-        moduleName: '/Views/Home/Home-page',
-        clearHistory: true
-    };
-    topmost.navigate(navigationEntry);
-    return ;
+    page.bindingContext = viewModel; 
     http.getJSON(Const.FIREBASE).then(function (r) {
         applicationSettings.setString("server", r.S1);
         var key = applicationSettings.getString("s_key");
@@ -35,7 +27,7 @@ function onNavigatingTo(args) {
                     clearHistory: true
                 };
                 topmost.navigate(navigationEntry);
-            }catch (er){
+            } catch (er) {
                 console.log(er);
             }
 

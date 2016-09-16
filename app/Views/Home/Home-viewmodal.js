@@ -8,6 +8,7 @@ var PickerManager = require("nativescript-timedatepicker");
 var LocationSearch = "/Views/LocationSearch/Search-Page";
 var fullscreen_modal = false;
 var moment = require('moment');
+
 function createViewModel(page) {
     var topmost = frame.topmost();
     var viewModel = new Observable();
@@ -23,10 +24,10 @@ function createViewModel(page) {
         waypoints: [],
         Date: "dd-mm-yyyy",
         DateStamp: null
-    });
-
+    }); 
     viewModel.AddSource = function () {
-        page.showModal(LocationSearch, {}, function closeCallback(data) {
+
+         page.showModal(LocationSearch, {}, function closeCallback(data) {
             if (data) {
                 viewModel.RideInfo.source = data.placename;
                 viewModel.RideInfo.source_id = data.place_id;
@@ -70,15 +71,23 @@ function createViewModel(page) {
         PickerManager.showDatePickerDialog();
     };
     viewModel.findRide = function () {
-
+        console.log("CLICK")
+        var navigationEntry = {
+            moduleName: '/Views/Login/Login-page'
+         };
+        topmost.navigate(navigationEntry);
     };
 
     viewModel.offerRide = function () {
 
+        var navigationEntry = {
+            moduleName: '/Views/Offer-Ride/Offer-Ride',
+            context : viewModel.RideInfo
+         };
+        topmost.navigate(navigationEntry);
     };
     return viewModel;
-
-
+ 
 }
 
 

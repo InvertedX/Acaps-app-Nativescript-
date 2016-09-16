@@ -78,8 +78,7 @@ function createViewModel(page) {
         topmost.navigate(navigationEntry);
     };
 
-    viewModel.offerRide = function () {
-
+    viewModel.offerRide = function () { 
         var navigationEntry = {
             moduleName: '/Views/Offer-Ride/Offer-Ride',
             context : viewModel.RideInfo

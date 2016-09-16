@@ -11,17 +11,58 @@ var mapView;
 var context = null;
 var mapsModule = require("nativescript-google-maps-sdk");
 var viewModel = null;
+var moment = require('moment');
+var PickerManager = require("nativescript-timedatepicker");
+
 function onNavigatingTo(args) {
     var page = args.object;
     if (page.navigationContext) {
         context = page.navigationContext;
-     }
+        console.log(JSON.stringify(context));
+    }
     page.cssFile = "Offer-Ride.css";
     viewModel = new Observable();
     viewModel.RideInfo = context;
+    viewModel.RideInfo.Time = "12:00 pm";
     viewModel.latitude = 6;
     viewModel.zoom = 9;
     viewModel.longitude = 60;
+    viewModel.TimePicker = function () {
+        var SelectedDate = new Date(viewModel.RideInfo.DateStamp);
+        PickerManager.init(function (Time) {
+            if (Time) {
+                var timestamp = new moment(Time, "DD MM YYYY HH:mm z");
+                var SelectedDate = new Date(timestamp);
+                var momentIns = new moment(SelectedDate);
+                viewModel.RideInfo.set('Time', momentIns.format("hh:mm a"));
+                viewModel.RideInfo.set('Date', momentIns.format("LL"));
+                viewModel.RideInfo.set('DateStamp', timestamp);
+            }
+
+        }, "",SelectedDate);
+        PickerManager.showTimePickerDialog();
+
+    };
+    viewModel.OpendatePicker = function () {
+        var SelectedDate = new Date(viewModel.RideInfo.DateStamp);
+        console.log(SelectedDate);
+        PickerManager.init(function (date) {
+            if (date) {
+                console.log(date);
+                var timestamp = new moment(date, "DD MM YYYY HH:mm z");
+                var SelectedDate = new Date(timestamp);
+                var momentIns = new moment(SelectedDate);
+                viewModel.RideInfo.set('Date', momentIns.format("LL"));
+                viewModel.RideInfo.set('Time', momentIns.format("hh:mm a"));
+                viewModel.RideInfo.set('DateStamp', timestamp);
+            }
+
+        }, "Select Date", SelectedDate);
+
+        PickerManager.showDatePickerDialog();
+    };
+    
+    
     page.bindingContext = viewModel;
 
 
@@ -49,9 +90,7 @@ function onMapReady(args) {
         index++;
         mapView.addMarker(markerDestination);
 
-/*
         RouteFind();
-*/
     } catch (er) {
         console.error(er);
     }
@@ -85,7 +124,7 @@ function RouteFind() {
 
         var maxDiff = (lngDiff > latDiff) ? lngDiff : latDiff;
         if (maxDiff < 360 / Math.pow(2, 20)) {
-            var zoomLevel = 21;
+            zoomLevel = 21;
         } else {
             zoomLevel = (-1 * ( (Math.log(maxDiff) / Math.log(2)) - (Math.log(360) / Math.log(2))));
             if (zoomLevel < 1)

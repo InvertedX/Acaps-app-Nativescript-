@@ -20,8 +20,10 @@ var genders = ['none', 'male', 'female'];
 var LocationSearch = "/Views/LocationSearch/Search-Page";
 var fullscreen_modal = false;
 var Map_args = null;
-var listwaypoints;
-var mapProgress;
+var mapProgress, tabView, listwaypoints;
+var http = require('http');
+var appSetting = require('application-settings');
+
 function onNavigatingTo(args) {
     var page = args.object;
     if (page.navigationContext) {
@@ -32,6 +34,7 @@ function onNavigatingTo(args) {
     listwaypoints = page.getViewById("listwaypoints");
     var genderpicker = page.getViewById("GenderPicker");
     mapProgress = page.getViewById("mapProgreess");
+    tabView = page.getViewById("tabView");
     mapProgress.visibility = "collapsed";
     genderpicker.items = genders;
     viewModel.RideInfo = context;
@@ -61,8 +64,8 @@ function onNavigatingTo(args) {
     viewModel.MinPrice = 0;
     viewModel.latitude = 6;
     viewModel.zoom = 9;
-    viewModel.longitude = 60; 
-    
+    viewModel.longitude = 60;
+
     viewModel.AddSource = function () {
         page.showModal(LocationSearch, {}, function closeCallback(data) {
             if (data) {
@@ -88,7 +91,7 @@ function onNavigatingTo(args) {
         }, fullscreen_modal);
 
 
-    }; 
+    };
     viewModel.seatsManage = {
         Add: function () {
             if (viewModel.RideInfo.Seats < 12) {
@@ -105,7 +108,7 @@ function onNavigatingTo(args) {
 
             }
         }
-    }; 
+    };
     viewModel.addWaypont = function () {
         page.showModal(LocationSearch, {}, function closeCallback(data) {
             if (data) {
@@ -120,7 +123,7 @@ function onNavigatingTo(args) {
 
             }
         }, fullscreen_modal);
-    }; 
+    };
     viewModel.WayPoints = new ObservableArray();
 
     viewModel.TimePicker = function () {
@@ -158,19 +161,41 @@ function onNavigatingTo(args) {
 
         PickerManager.showDatePickerDialog();
     };
+
+    viewModel.next = function () {
+        tabView.selectedIndex = 1;
+    };
     viewModel.finish = function () {
-        if(viewModel.RideInfo.source =="Choose"){
+        if (viewModel.RideInfo.source == "Choose") {
             alert("Source Field is required")
             return;
         }
-        if(viewModel.RideInfo.destination =="Choose"){
+        if (viewModel.RideInfo.destination == "Choose") {
             alert("Destination Field is required")
             return;
         }
-       if(viewModel.RideInfo.description =="Choose"){
+        if (viewModel.RideInfo.description == "Choose") {
             alert("Destination Field is required")
             return;
-        } 
+        }
+        console.log( appSetting.getString("server") + "/api/offer")
+        http.request({
+            url: appSetting.getString("server") + "/api/offer",
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "AuId_": appSetting.getString("s_key")
+            },
+
+            content: JSON.stringify(viewModel.RideInfo)
+        }).then(function (response) {
+console.log(JSON.stringify(response));
+        }, function (e) {
+            console.error(e);
+            // console.log("Error occurred " + e);
+        });
+
+
     };
     viewModel.GenderPref = function (args) {
         setTimeout(function () {

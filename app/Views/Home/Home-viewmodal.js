@@ -26,8 +26,7 @@ function createViewModel(page) {
         Date: "dd-mm-yyyy",
         DateStamp: null
     }); 
-    viewModel.AddSource = function () {
-
+    viewModel.AddSource = function () { 
          page.showModal(LocationSearch, {}, function closeCallback(data) {
             if (data) {
                 viewModel.RideInfo.source = data.placename;

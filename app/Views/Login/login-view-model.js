@@ -35,7 +35,7 @@ function createViewModel() {
                 } else {
                     var response = JSON.parse(response.content);
                     var token = response.token;
-                     
+                    
                     applicationSettings.setString('s_key', token);
                      if(response.isnew==true){
 

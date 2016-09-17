@@ -5,13 +5,82 @@
     </action-bar>
     <TabView id="tabView" tabsBackgroundColor="White" height="600">
         <TabView.items>
+            <TabViewItem title="Route Plan" style="background-color: white">
+                <TabViewItem.view>
+                    <scroll-view>
+                        <StackLayout>
+                            <GridLayout height="300">
+                                <maps:mapView latitude="{{ latitude }}" longitude="{{ longitude }}"
+                                              zoom="{{ zoom }}" bearing="{{ bearing }}"
+                                              tilt="{{ tilt }}" padding="{{ padding }}" mapReady="onMapReady"
+                                              markerSelect="onMarkerSelect" markerBeginDragging="onMarkerBeginDragging"
+                                              markerEndDragging="onMarkerEndDragging" markerDrag="onMarkerDrag"
+                                />
+                                <ActivityIndicator color="red" width="50"  id="mapProgreess" busy="busy"/>
+
+                            </GridLayout>
+
+                            <Card:CardView horizontalAlignment="center" margin="15" elevation="8" radius="5">
+                                <GridLayout cssClass="cardview" columns="50, 30, *" rows="auto, auto">
+                                    <Label col="0" cssClass="text-danger" style=" margin-top: 12"
+                                           text="To"
+                                    />
+                                    <Label col="1" style=" margin-top: 15" cssClass="source_icon"
+                                           text="&#xE40C;"/>
+
+                                    <Button col="2" cssClass="choosebox" tap="{{AddSource}}"
+                                            text="{{RideInfo.source}}"/>
+
+                                    <Label row="1" text="From" style=" margin-top: 12" col="0"
+                                    />
+
+                                    <Label row="1" style=" margin-top: 15" col="1" class="destination_icon"
+                                           text="&#xE0C8;"/>
+
+                                    <Button row="1" col="2" cssClass="choosebox" tap="{{AddDestination}}"
+                                            text="{{RideInfo.destination}}"/>
+
+                                </GridLayout>
+                            </Card:CardView>
+
+                            <Card:CardView horizontalAlignment="center" margin="15" elevation="8" radius="5">
+                                <StackLayout>
+                                    <label style="color: #2b2b2b;font-size: 16" margin="10" text="Waypoints"
+                                           marginTop="10"/>
+                                    <button tap="{{addWaypont}}" cssClass="bluebtn" style="text-transform: lowercase" text="Add Waypoint"/>
+                                    <StackLayout >
+                                        <ListView height="0" id="listwaypoints" items="{{ WayPoints }}"
+                                                  itemTap="{{listViewItemTap}}">
+                                            <ListView.itemTemplate>
+                                                <StackLayout margin="3" orientation="horizontal">
+                                                    <GridLayout columns="*,auto" rows="auto">
+                                                        <Button col="0" margin="0" textWrap="false" cssClass="choosebox"
+                                                                text="{{location}}"/>
+                                                        <Button col="1" tap="deleteWaypoints" text="&#xE14C;" id="{{location}}"   margin="0" style="background-color: #fe5353;color: white;" cssClass="red_button, material-icons" />
+                                                    </GridLayout>
+                                                </StackLayout>
+                                            </ListView.itemTemplate>
+                                        </ListView>
+                                    </StackLayout>
+
+                                </StackLayout>
+                            </Card:CardView>
+
+                            <Button tap="{{finish}}" cssClass="greenbtn" margin="15" marginTop="20" marginBottom="25" text="Finish"/>
+
+                        </StackLayout>
+                    </scroll-view>
+
+                </TabViewItem.view>
+
+            </TabViewItem>
             <TabViewItem style="background-color: white" title="Ride Details">
                 <TabViewItem.view>
                     <ScrollView>
                         <StackLayout marginTop="10">
                             <Card:CardView shadowOpacity="0.4" margin="5" elevation="8" radius="5">
                                 <StackLayout cssClass="cardview">
-                                    <label text="Choose Ride Date and Time"/>
+                                    <label marginBottom="10" text="Choose Ride Date and Time"/>
                                     <GridLayout id="dateGrid" cssClass="cardview" columns="50, 30, *"
                                                 rows="auto, auto">
                                         <Label col="0" style="color: black ;margin-top: 15" text="Date"/>
@@ -40,10 +109,10 @@
                                 <StackLayout cssClass="cardview">
                                     <label text="Total Seats"/>
                                     <GridLayout margin="20" columns="auto, *, auto" rows="auto, *">
-                                        <Button text="-" col="0" tap="{{seatsManage.Sub}}"/>
-                                        <Label col="1" style="text-align: center;font-size: 16;margin-top: 8"
+                                        <Button cssClass="bluebtn" text="-" col="0" tap="{{seatsManage.Sub}}"/>
+                                        <Label col="1" style="text-align: center;font-size: 18;margin-top: 20"
                                                text="{{RideInfo.Seats}}"/>
-                                        <Button text="+" tap="{{seatsManage.Add}}" col="2"/>
+                                        <Button cssClass="bluebtn" text="+" tap="{{seatsManage.Add}}" col="2"/>
                                     </GridLayout>
                                 </StackLayout>
                             </Card:CardView>
@@ -87,80 +156,10 @@
                                 </StackLayout>
                             </Card:CardView>
 
-                            <Button margin="5" marginTop="20" marginBottom="25" text="Finish"/>
+                            <Button cssClass="greenbtn" tap="{{finish}}" margin="15" marginTop="20" marginBottom="25" text="Finish"/>
                         </StackLayout>
                     </ScrollView>
                 </TabViewItem.view>
-            </TabViewItem>
-            <TabViewItem title="Route Plan" style="background-color: white">
-                <TabViewItem.view>
-                    <scroll-view>
-                        <StackLayout>
-
-                            <GridLayout height="300">
-                                 <maps:mapView latitude="{{ latitude }}" longitude="{{ longitude }}"
-                                              zoom="{{ zoom }}" bearing="{{ bearing }}"
-                                              tilt="{{ tilt }}" padding="{{ padding }}" mapReady="onMapReady"
-                                              markerSelect="onMarkerSelect" markerBeginDragging="onMarkerBeginDragging"
-                                              markerEndDragging="onMarkerEndDragging" markerDrag="onMarkerDrag"
-                                              />
-                                <ActivityIndicator color="red" width="50"  id="mapProgreess" busy="busy"/>
-
-                            </GridLayout>
-
-                            <Card:CardView horizontalAlignment="center" margin="15" elevation="8" radius="5">
-                                <GridLayout cssClass="cardview" columns="50, 30, *" rows="auto, auto">
-                                    <Label col="0" cssClass="text-danger" style=" margin-top: 12"
-                                           text="To"
-                                    />
-                                    <Label col="1" style=" margin-top: 15" cssClass="source_icon"
-                                           text="&#xE40C;"/>
-
-                                    <Button col="2" cssClass="choosebox" tap="{{AddSource}}"
-                                            text="{{RideInfo.source}}"/>
-
-                                    <Label row="1" text="From" style=" margin-top: 12" col="0"
-                                    />
-
-                                    <Label row="1" style=" margin-top: 15" col="1" class="destination_icon"
-                                           text="&#xE0C8;"/>
-
-                                    <Button row="1" col="2" cssClass="choosebox" tap="{{AddDestination}}"
-                                            text="{{RideInfo.destination}}"/>
-
-                                </GridLayout>
-                            </Card:CardView>
-
-                            <Card:CardView horizontalAlignment="center" margin="15" elevation="8" radius="5">
-                                <StackLayout>
-                                    <label style="color: #2b2b2b;font-size: 16" margin="10" text="Waypoints"
-                                           marginTop="10"/>
-                                    <button tap="{{addWaypont}}" cssClass="greenbtn" style="text-transform: lowercase" text="Add Waypoint"/>
-                                    <StackLayout >
-                                        <ListView height="0" id="listwaypoints" items="{{ WayPoints }}"
-                                                  itemTap="{{listViewItemTap}}">
-                                            <ListView.itemTemplate>
-                                                <StackLayout margin="5" orientation="horizontal">
-                                                    <GridLayout columns="*,auto" rows="auto">
-                                                    <Button col="0" margin="0" textWrap="false" cssClass="choosebox"
-                                                            text="{{location}}"/>
-                                                    <Button col="1" text="&#xE14C;" id="{{location}}"  tap="{{deleteWaypoints}}" margin="0" style="background-color: #fe5353;color: white;" cssClass="red_button, material-icons" />
-                                                    </GridLayout>
-                                                </StackLayout>
-                                            </ListView.itemTemplate>
-                                        </ListView>
-                                    </StackLayout>
-
-                                </StackLayout>
-                            </Card:CardView>
-
-                            <Button margin="5" marginTop="20" marginBottom="25" text="Finish"/>
-
-                        </StackLayout>
-                    </scroll-view>
-
-                </TabViewItem.view>
-
             </TabViewItem>
         </TabView.items>
     </TabView>

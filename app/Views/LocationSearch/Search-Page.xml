@@ -1,15 +1,18 @@
 <Page xmlns:Card="nativescript-cardview" xmlns="http://schemas.nativescript.org/tns.xsd"
-      showingModally="onNavigatingTo">
-    <StackLayout  height="*">
-        <SearchBar id="search" text="{{loactionSearch}}"/>
-        <StackLayout>
-            <ActivityIndicator id="progress" busy="busy"/>
-            <ListView id="listlocations"  items="{{ locations }}"
-                      itemTap="{{listViewItemTap}}">
-                <ListView.itemTemplate>
-        <label  width="*" cssClass="description" text="{{description}}" />
-                 </ListView.itemTemplate>
-            </ListView>
+      showingModally="onNavigatingTo" xmlns:Card="nativescript-cardview" backgroundColor="Transparent">
+
+    <Card:CardView horizontalAlignment="center" margin="8" elevation="12" radius="7">
+        <StackLayout height="*">
+            <SearchBar id="search" text="{{loactionSearch}}"/>
+            <StackLayout>
+                <ActivityIndicator id="progress" busy="busy"/>
+                <ListView id="listlocations" items="{{ locations }}"
+                          itemTap="{{listViewItemTap}}">
+                    <ListView.itemTemplate>
+                        <label width="*" cssClass="description" text="{{description}}"/>
+                    </ListView.itemTemplate>
+                </ListView>
+            </StackLayout>
         </StackLayout>
-    </StackLayout>
+    </Card:CardView>
 </Page>

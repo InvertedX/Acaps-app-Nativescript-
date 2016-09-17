@@ -4,7 +4,6 @@
         <ActionBar style="color: white;" title="Acaps">
         </ActionBar>
     </Page.actionBar>
-
     <StackLayout orientation="vertical" style="margin-top: 25">
         <Card:CardView horizontalAlignment="center" margin="15" elevation="8" radius="5">
             <StackLayout>

@@ -7,6 +7,7 @@ var ObservableArray = require("data/observable-array").ObservableArray;
 var index = 1;
 var source_lat_lng, destination_lat_lng;
 var DirectionParser = require('./DirectionApiParser').Parse;
+var dialogs = require('ui/dialogs');
 var mapView;
 var context = null;
 var mapsModule = require("nativescript-google-maps-sdk");
@@ -60,12 +61,8 @@ function onNavigatingTo(args) {
     viewModel.MinPrice = 0;
     viewModel.latitude = 6;
     viewModel.zoom = 9;
-    viewModel.longitude = 60;
-    viewModel.deleteWaypoints = function (args) {
-        console.log("DELETE QTAuwA");
-        var index =  viewModel.RideInfo.waypoints.indexOf(args.object.id);
-        console.log(index);
-    };
+    viewModel.longitude = 60; 
+    
     viewModel.AddSource = function () {
         page.showModal(LocationSearch, {}, function closeCallback(data) {
             if (data) {
@@ -91,7 +88,7 @@ function onNavigatingTo(args) {
         }, fullscreen_modal);
 
 
-    };
+    }; 
     viewModel.seatsManage = {
         Add: function () {
             if (viewModel.RideInfo.Seats < 12) {
@@ -108,8 +105,7 @@ function onNavigatingTo(args) {
 
             }
         }
-    };
-
+    }; 
     viewModel.addWaypont = function () {
         page.showModal(LocationSearch, {}, function closeCallback(data) {
             if (data) {
@@ -124,9 +120,9 @@ function onNavigatingTo(args) {
 
             }
         }, fullscreen_modal);
-    };
-
+    }; 
     viewModel.WayPoints = new ObservableArray();
+
     viewModel.TimePicker = function () {
         var SelectedDate = new Date(viewModel.RideInfo.DateStamp);
         PickerManager.init(function (Time) {
@@ -143,6 +139,7 @@ function onNavigatingTo(args) {
         PickerManager.showTimePickerDialog();
 
     };
+
     viewModel.OpendatePicker = function () {
         var SelectedDate = new Date(viewModel.RideInfo.DateStamp);
         console.log(SelectedDate);
@@ -161,6 +158,20 @@ function onNavigatingTo(args) {
 
         PickerManager.showDatePickerDialog();
     };
+    viewModel.finish = function () {
+        if(viewModel.RideInfo.source =="Choose"){
+            alert("Source Field is required")
+            return;
+        }
+        if(viewModel.RideInfo.destination =="Choose"){
+            alert("Destination Field is required")
+            return;
+        }
+       if(viewModel.RideInfo.description =="Choose"){
+            alert("Destination Field is required")
+            return;
+        } 
+    };
     viewModel.GenderPref = function (args) {
         setTimeout(function () {
             viewModel.RideInfo.set("genderpref", args.object.id);
@@ -170,6 +181,30 @@ function onNavigatingTo(args) {
     };
     page.bindingContext = viewModel;
 }
+exports.deleteWaypoints = function (args) {
+    var index = viewModel.RideInfo.waypoints.indexOf(args.object.id);
+    var options = {
+        title: "Delete Waypoints",
+        message: "Are you sure you want to Delete Waypoint " + viewModel.RideInfo.waypoints[index] + " ?",
+        okButtonText: "Yes",
+        cancelButtonText: "No",
+        neutralButtonText: "Cancel"
+    };
+    dialogs.confirm(options).then(function (result) {
+        if (result == true) {
+            viewModel.RideInfo.waypoints.splice(index, 1);
+            viewModel.RideInfo.waypoints_lat_lng.splice(index, 1);
+            viewModel.RideInfo.waypoints_id.splice(index, 1);
+            viewModel.WayPoints.splice(index, 1);
+            listwaypoints.height = listwaypoints.height - 50;
+
+            clearMap();
+            onMapReady(Map_args);
+        }
+    });
+    console.log(index);
+};
+
 function clearMap() {
     try {
         mapView.removeAllPolylines();
@@ -179,6 +214,7 @@ function clearMap() {
     }
 
 }
+
 function FareManage(Distance) {
     console.log("CALLED");
     mDistance = Distance;
@@ -232,7 +268,6 @@ function onMapReady(args) {
 function onMarkerSelect(args) {
     console.log("Clicked on " + args.marker.title);
 }
-
 
 function RouteFind() {
     DirectionParser(viewModel.RideInfo.source_id, viewModel.RideInfo.waypoints_id, viewModel.RideInfo.destination_id, mapsModule, function (data, poly, distance) {

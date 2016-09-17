@@ -1,8 +1,8 @@
-<Page
-        backgroundColor="#ecf0f1"
-        xmlns="http://schemas.nativescript.org/tns.xsd"
-        navigatingTo="onNavigatingTo">
+<Page backgroundColor="#ecf0f1"
+      xmlns="http://schemas.nativescript.org/tns.xsd"
+      navigatingTo="onNavigatingTo">
 
-    <ActivityIndicator width="50" busy="isLoading"/>
+
+    <ActivityIndicator color="red" width="50" busy="isLoading"/>
 
 </Page>

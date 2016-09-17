@@ -4,6 +4,7 @@
 var buttonModule = require('ui/button');
 var application = require("application");
 var Observable = require("data/observable").Observable;
+var ObservableArray = require("data/observable-array").ObservableArray;
 var index = 1;
 var source_lat_lng, destination_lat_lng;
 var DirectionParser = require('./DirectionApiParser').Parse;
@@ -12,8 +13,13 @@ var context = null;
 var mapsModule = require("nativescript-google-maps-sdk");
 var viewModel = null;
 var moment = require('moment');
+var CalculateFare = require('../../Utils/Utility').PriceCalculate;
 var PickerManager = require("nativescript-timedatepicker");
-
+var mDistance = 1;
+var genders = ['none', 'male', 'female'];
+var LocationSearch = "/Views/LocationSearch/Search-Page";
+var fullscreen_modal = false;
+var Map_args = null;
 function onNavigatingTo(args) {
     var page = args.object;
     if (page.navigationContext) {
@@ -22,11 +28,88 @@ function onNavigatingTo(args) {
     }
     page.cssFile = "Offer-Ride.css";
     viewModel = new Observable();
+    var genderpicker = page.getViewById("GenderPicker");
+    genderpicker.items = genders;
     viewModel.RideInfo = context;
+    viewModel.index = 0;
+    viewModel.Selected = context;
+    viewModel.fareSelectorVisibilty = "visible";
+    viewModel.RideInfo.freeride = false;
+    viewModel.RideInfo.waypoints_id = [];
+    viewModel.RideInfo.waypoints_lat_lng = [];
+    viewModel.changeToFree = function () {
+        if (viewModel.RideInfo.freeride == true) {
+            viewModel.set('fareSelectorVisibilty', "visible");
+            viewModel.RideInfo.genderpref = genders[viewModel.index];
+
+        } else {
+            viewModel.set('fareSelectorVisibilty', "collapsed");
+            viewModel.RideInfo.genderpref = genders[viewModel.index];
+        }
+    };
+    viewModel.RideInfo.genderpref = genders[viewModel.index];
+    viewModel.RideInfo.Seats = 1;
+    viewModel.RideInfo.description = "";
     viewModel.RideInfo.Time = "12:00 pm";
+    viewModel.RideInfo.price = 0;
+    viewModel.MaxPrice = 0;
+    viewModel.MinPrice = 0;
     viewModel.latitude = 6;
     viewModel.zoom = 9;
     viewModel.longitude = 60;
+    viewModel.AddSource = function () {
+        page.showModal(LocationSearch, {}, function closeCallback(data) {
+            if (data) {
+                clearMap();
+                viewModel.RideInfo.source = data.placename;
+                viewModel.RideInfo.source_id = data.place_id;
+                viewModel.RideInfo.source_lat_lng = data.place_id_lat_lng;
+                onMapReady(Map_args);
+            }
+        }, fullscreen_modal);
+
+    };
+    viewModel.AddDestination = function () {
+        page.showModal(LocationSearch, {}, function closeCallback(data) {
+            if (data) {
+                clearMap();
+                viewModel.RideInfo.destination = data.placename;
+                viewModel.RideInfo.destination_id = data.place_id;
+                viewModel.RideInfo.destination_lat_lng = data.place_id_lat_lng;
+                onMapReady(Map_args);
+
+            }
+        }, fullscreen_modal);
+
+
+    };
+    viewModel.seatsManage = {
+        Add: function () {
+            if (viewModel.RideInfo.Seats < 12) {
+                viewModel.RideInfo.set("Seats", viewModel.RideInfo.Seats + 1);
+                console.log("add" + viewModel.RideInfo.Seats);
+                FareManage(mDistance)
+            }
+        },
+        Sub: function () {
+            if (viewModel.RideInfo.Seats > 1) {
+                console.log("sUB");
+                viewModel.RideInfo.set("Seats", viewModel.RideInfo.Seats - 1);
+                FareManage(mDistance);
+
+            }
+        }
+    };
+    viewModel.addWaypont = function () {
+        page.showModal(LocationSearch, {}, function closeCallback(data) {
+            if (data) {
+                viewModel.RideInfo.waypoints.push(data.placename);
+                viewModel.RideInfo.waypoints_id.push(data.place_id);
+                viewModel.RideInfo.waypoints_lat_lng.push(data.place_id_lat_lng);
+                onMapReady(Map_args);
+            }
+        }, fullscreen_modal);
+    };
     viewModel.TimePicker = function () {
         var SelectedDate = new Date(viewModel.RideInfo.DateStamp);
         PickerManager.init(function (Time) {
@@ -39,7 +122,7 @@ function onNavigatingTo(args) {
                 viewModel.RideInfo.set('DateStamp', timestamp);
             }
 
-        }, "",SelectedDate);
+        }, "", SelectedDate);
         PickerManager.showTimePickerDialog();
 
     };
@@ -61,15 +144,37 @@ function onNavigatingTo(args) {
 
         PickerManager.showDatePickerDialog();
     };
-    
-    
+    viewModel.GenderPref = function (args) {
+        setTimeout(function () {
+            viewModel.RideInfo.set("genderpref", args.object.id);
+            console.log(args.object.id);
+        }, 100);
+
+    };
     page.bindingContext = viewModel;
+}
+function clearMap() {
+    try {
+        mapView.removeAllPolylines();
+        mapView.removeAllMarkers();
+    } catch (Err) {
+        console.error(Err);
+    }
 
-
+}
+function FareManage(Distance) {
+    console.log("CALLED");
+    mDistance = Distance;
+    var fare = CalculateFare(Distance, 10, viewModel.RideInfo.Seats);
+    viewModel.set('MaxPrice', fare.maximum);
+    viewModel.set('MinPrice', fare.minimum);
+    viewModel.RideInfo.set('price', fare.avg)
+    console.log(JSON.stringify(fare));
 }
 
 function onMapReady(args) {
     console.log("MAP Ready")
+    Map_args = args;
     mapView = args.object;
     try {
         source_lat_lng = viewModel.RideInfo.source_lat_lng;
@@ -105,8 +210,8 @@ function onMarkerSelect(args) {
 
 function RouteFind() {
     DirectionParser(viewModel.RideInfo.source_id, viewModel.RideInfo.destination_id, mapsModule, function (data, poly, distance) {
-
         console.log("DISTACNE ", distance);
+        FareManage(distance);
         var zoomLevel = 1;
         var latnorth = data.routes[0].bounds.northeast.lat;
 
@@ -136,7 +241,7 @@ function RouteFind() {
         console.log(avglng);
         console.log(zoomLevel);
         console.log("HEERE1");
-        viewModel.set("zoom", zoomLevel);
+        viewModel.set("zoom", zoomLevel-1);
         viewModel.set("latitude", avglat);
         viewModel.set("longitude", avglng);
 

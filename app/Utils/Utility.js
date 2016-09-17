@@ -50,8 +50,35 @@ exports.Util = function () {
             connectivity.stopMonitoring();
         }
 
-        ,getServer : function () {
+        , getServer: function () {
             return applicationSettings.getString("server");
         }
     }
+};
+
+exports.PriceCalculate = function (Distance, rate, noSeats) {
+    var cost = {
+        'minimum': null,
+        'maximum': null,
+        'avg': null
+    };
+
+    var actual = Distance * rate;
+    cost.maximum = actual / noSeats;
+    cost.avg = cost.maximum / 2;
+    cost.minimum = cost.maximum / 10;
+    if (cost.minimum < 10) {
+        cost.minimum = 10;
+    }
+    else {
+        cost.minimum = cost.minimum / 10;
+        cost.minimum = Math.round(cost.minimum) * 10;
+    }
+    cost.avg = cost.avg / 10
+    cost.avg = Math.round(cost.avg) * 10;
+    cost.maximum = cost.maximum / 10
+    cost.maximum = Math.round(cost.maximum) * 10;
+    return cost;
+ 
+
 };

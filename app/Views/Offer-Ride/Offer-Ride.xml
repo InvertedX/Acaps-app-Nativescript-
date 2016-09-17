@@ -9,7 +9,7 @@
                     <ScrollView>
                         <StackLayout marginTop="10">
                             <Card:CardView shadowOpacity="0.4" margin="5" elevation="8" radius="5">
-                                <StackLayout id="timeContainer" cssClass="cardview">
+                                <StackLayout cssClass="cardview">
                                     <label text="Choose Ride Date and Time"/>
                                     <GridLayout id="dateGrid" cssClass="cardview" columns="50, 30, *"
                                                 rows="auto, auto">
@@ -36,18 +36,57 @@
 
                             <Card:CardView shadowOpacity="0.4" margin="5" style="margin-top:15" elevation="8"
                                            radius="5">
-                                <StackLayout id="timeContainer" cssClass="cardview">
-                                    <label text="Choose Ride time"/>
+                                <StackLayout cssClass="cardview">
+                                    <label text="Total Seats"/>
+                                    <GridLayout margin="20" columns="auto, *, auto" rows="auto, *">
+                                        <Button text="-" col="0" tap="{{seatsManage.Sub}}"/>
+                                        <Label col="1" style="text-align: center;font-size: 16;margin-top: 8"
+                                               text="{{RideInfo.Seats}}"/>
+                                        <Button text="+" tap="{{seatsManage.Add}}" col="2"/>
+                                    </GridLayout>
                                 </StackLayout>
                             </Card:CardView>
 
                             <Card:CardView shadowOpacity="0.4" margin="5" style="margin-top:15" elevation="8"
                                            radius="5">
-                                <StackLayout id="timeContainer" cssClass="cardview">
-                                    <label text="Choose Ride time"/>
+                                <StackLayout cssClass="cardview">
+                                    <label text="Ride fare"/>
+                                    <StackLayout orientation="horizontal" marginTop="10">
+                                        <Label text="Let it be free"/>
+                                        <Switch color="#fe5353" marginLeft="15" tap="{{changeToFree}}"
+                                                checked="{{ RideInfo.freeride }}"/>
+                                    </StackLayout>
+                                    <StackLayout visibility="{{ fareSelectorVisibilty }}" orientation="vertical">
+                                        <Label text="{{  RideInfo.price}}"
+                                               style="font-size:21;text-align: center;color: forestgreen"/>
+                                        <Slider maxValue="{{MaxPrice}}" margin="20" marginBottom="25"
+                                                value="{{ RideInfo.price }}"
+                                                minValue="{{MinPrice}}"/>
+                                    </StackLayout>
                                 </StackLayout>
                             </Card:CardView>
 
+                            <Card:CardView shadowOpacity="0.4" margin="5" style="margin-top:15" elevation="8"
+                                           radius="5">
+                                <StackLayout cssClass="cardview">
+                                    <label text="Gender Preference"/>
+                                    <StackLayout margin="10">
+                                        <ListPicker id="GenderPicker" selectedIndex="{{index}}"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Card:CardView>
+
+                            <Card:CardView shadowOpacity="0.4" margin="5" style="margin-top:15" elevation="8"
+                                           radius="5">
+                                <StackLayout cssClass="cardview">
+                                    <label text="Description"/>
+                                    <StackLayout margin="10">
+                                        <TextView text="{{description}}"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Card:CardView>
+
+                            <Button margin="5" marginTop="20" marginBottom="25" text="Finish"/>
                         </StackLayout>
                     </ScrollView>
                 </TabViewItem.view>
@@ -55,7 +94,6 @@
             </TabViewItem>
 
             <TabViewItem title="Route Plan" style="background-color: white">
-
                 <TabViewItem.view>
                     <StackLayout>
                         <GridLayout height="300">
@@ -67,7 +105,39 @@
                                           cameraChanged="onCameraChanged"/>
                         </GridLayout>
 
+                        <Card:CardView horizontalAlignment="center" margin="15" elevation="8" radius="5">
+                            <GridLayout cssClass="cardview" columns="50, 30, *" rows="auto, auto">
+                                <Label col="0" cssClass="text-danger" style=" margin-top: 12"
+                                       text="To"
+                                />
+                                <Label col="1" style=" margin-top: 25" cssClass="source_icon"
+                                       text="&#xE40C;"/>
+
+                                <Button col="2" cssClass="choosebox" tap="{{AddSource}}" text="{{RideInfo.source}}"/>
+
+                                <Label row="1" text="From" style=" margin-top: 12" col="0"
+                                />
+
+                                <Label row="1" style=" margin-top: 25" col="1" class="destination_icon"
+                                       text="&#xE0C8;"/>
+
+                                <Button row="1" col="2" cssClass="choosebox" tap="{{AddDestination}}"
+                                        text="{{RideInfo.destination}}"/>
+
+                            </GridLayout>
+                        </Card:CardView>
+                        <Card:CardView horizontalAlignment="center" margin="15" elevation="8" radius="5">
+                            <ListView id="listwaypoints" items="{{ RideInfo.waypoints }}"
+                                      itemTap="{{listViewItemTap}}">
+                            </ListView>
+                            <button tap="{{addWaypont}}" text="Add Waypoint"/>
+                        </Card:CardView>
+
+                        <Button margin="5" marginTop="20" marginBottom="25" text="Finish"/>
+
                     </StackLayout>
+
+
                 </TabViewItem.view>
 
             </TabViewItem>

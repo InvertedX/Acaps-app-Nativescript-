@@ -22,6 +22,7 @@ function createViewModel(page) {
         destination_id: "",
         destination_lat_lng: {},
         waypoints: [],
+        waypoints_lat_lng: [],
         Date: "dd-mm-yyyy",
         DateStamp: null
     }); 
@@ -76,8 +77,7 @@ function createViewModel(page) {
             moduleName: '/Views/Login/Login-page'
          };
         topmost.navigate(navigationEntry);
-    };
-
+    }; 
     viewModel.offerRide = function () { 
         var navigationEntry = {
             moduleName: '/Views/Offer-Ride/Offer-Ride',
@@ -85,6 +85,8 @@ function createViewModel(page) {
          };
         topmost.navigate(navigationEntry);
     };
+    
+    
     return viewModel;
  
 }

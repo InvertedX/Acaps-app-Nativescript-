@@ -1,8 +1,7 @@
-  .source {
+.source {
     margin-right: 15;
     margin-right: 15;
 }
-
 
 .destination {
     margin: 25;
@@ -35,14 +34,21 @@
 
 }
 
-.choosebox {
-    background-color: white;
+.red_button {
+    background-color: #c0392b;
     padding-left: 15;
-    border-color : transparent;
+    border-color: transparent;
     padding-right: 15;
     elevation: lower;
 }
 
+.choosebox {
+    background-color: white;
+    padding-left: 15;
+    border-color: transparent;
+    padding-right: 15;
+    elevation: lower;
+}
 
 .greenbtn {
     margin: 15;

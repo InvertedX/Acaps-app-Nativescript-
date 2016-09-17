@@ -2,20 +2,28 @@
  * Created by Sarath Kumar on 9/7/2016.
  */
 var http = require('http');
-var API_KEY = "AIzaSyAJsjpzjoI4d7QIm9fNse2-IUXrhhe2_Ys";
+var API_KEY = require("../../Utils/Const").API_KEY;
 var polyline = require('nativescript-google-maps-sdk').Polyline;
 var Color = require("color").Color;
 var polylineParser = require('polyline');
 
-function ParseDirections(Source, Destination, module, fll) {
+function ParseDirections(Source, waypoints, Destination, module, fll) {
     var API_URL = "https://maps.googleapis.com/maps/api/directions/json?";
     API_URL += "&origin=place_id:" + Source;
     API_URL += "&key=" + API_KEY;
-    API_URL += "&destination=place_id:" + Destination;
-    API_URL += "&waypoints=place_id:" + Destination;
+    API_URL += "&destination=place_id:" + Destination; 
+     for (var i = 0; i < waypoints.length; i++) {
+        console.log(waypoints[i]);
+       if(i==0){
+           API_URL += "&waypoints=place_id:"+waypoints[i];
+       }else {
+           API_URL +="|place_id:"+waypoints[i];
+       }
+    }
     console.log(API_URL);
     http.getJSON(API_URL).then(function (data) {
-        fll(data, LegsItrator(data.routes[0],  module),distance(data.routes[0].legs));
+        console.log(data.status);
+        fll(data, LegsItrator(data.routes[0], module), distance(data.routes[0].legs));
     }, function (error) {
         console.log(error);
     });
@@ -34,7 +42,7 @@ function LegsItrator(Routes, module) {
         console.log("POLY");
         console.log(JSON.stringify(polyline));
 
-        return polyline; 
+        return polyline;
 
     } catch (err) {
         console.log(err);
@@ -47,7 +55,7 @@ function distance(legs) {
     legs.forEach(function (data) {
         distance = data.distance.value + distance;
     });
-    return Math.round(distance/1000);
+    return Math.round(distance / 1000);
 }
 
 exports.Parse = ParseDirections;

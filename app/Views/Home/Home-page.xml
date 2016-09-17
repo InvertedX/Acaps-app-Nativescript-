@@ -12,7 +12,7 @@
                     <Label col="0" cssClass="text-danger" style=" margin-top: 12"
                            text="To"
                     />
-                    <Label col="1" style=" margin-top: 25" cssClass="source_icon"
+                    <Label col="1" style=" margin-top: 15" cssClass="source_icon"
                            text="&#xE40C;"/>
 
                     <Button col="2" cssClass="choosebox" tap="{{AddSource}}" text="{{RideInfo.source}}"/>
@@ -20,7 +20,7 @@
                     <Label row="1" text="From" style=" margin-top: 12" col="0"
                     />
 
-                    <Label row="1" style=" margin-top: 25" col="1" class="destination_icon"
+                    <Label row="1" style=" margin-top: 15" col="1" class="destination_icon"
                            text="&#xE0C8;"/>
 
                     <Button row="1" col="2" cssClass="choosebox" tap="{{AddDestination}}"

@@ -53,6 +53,11 @@
     margin-bottom: 25;
     background-color: #27ae60;
     color: white;
+}.bluebtn {
+    margin: 15;
+    margin-bottom: 25;
+    background-color: #3498db;
+    color: white;
 }
 
 .greenbtn:focus {

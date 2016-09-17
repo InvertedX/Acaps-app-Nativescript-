@@ -1,6 +1,6 @@
 <Page xmlns:Card="nativescript-cardview" xmlns="http://schemas.nativescript.org/tns.xsd"
       showingModally="onNavigatingTo">
-    <StackLayout  height="*">>
+    <StackLayout  height="*">
         <SearchBar id="search" text="{{loactionSearch}}"/>
         <StackLayout>
             <ActivityIndicator id="progress" busy="busy"/>

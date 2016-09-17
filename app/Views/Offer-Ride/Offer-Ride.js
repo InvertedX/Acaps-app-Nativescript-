@@ -1,7 +1,6 @@
 /**
  * Created by Sarath Kumar on 9/7/2016.
  */
-var buttonModule = require('ui/button');
 var application = require("application");
 var Observable = require("data/observable").Observable;
 var ObservableArray = require("data/observable-array").ObservableArray;
@@ -20,21 +19,26 @@ var genders = ['none', 'male', 'female'];
 var LocationSearch = "/Views/LocationSearch/Search-Page";
 var fullscreen_modal = false;
 var Map_args = null;
+var listwaypoints;
+var mapProgress;
 function onNavigatingTo(args) {
     var page = args.object;
     if (page.navigationContext) {
         context = page.navigationContext;
-        console.log(JSON.stringify(context));
     }
     page.cssFile = "Offer-Ride.css";
     viewModel = new Observable();
+    listwaypoints = page.getViewById("listwaypoints");
     var genderpicker = page.getViewById("GenderPicker");
+    mapProgress = page.getViewById("mapProgreess");
+    mapProgress.visibility = "collapsed";
     genderpicker.items = genders;
     viewModel.RideInfo = context;
     viewModel.index = 0;
     viewModel.Selected = context;
     viewModel.fareSelectorVisibilty = "visible";
     viewModel.RideInfo.freeride = false;
+    viewModel.RideInfo.waypoints = [];
     viewModel.RideInfo.waypoints_id = [];
     viewModel.RideInfo.waypoints_lat_lng = [];
     viewModel.changeToFree = function () {
@@ -57,6 +61,11 @@ function onNavigatingTo(args) {
     viewModel.latitude = 6;
     viewModel.zoom = 9;
     viewModel.longitude = 60;
+    viewModel.deleteWaypoints = function (args) {
+        console.log("DELETE QTAuwA");
+        var index =  viewModel.RideInfo.waypoints.indexOf(args.object.id);
+        console.log(index);
+    };
     viewModel.AddSource = function () {
         page.showModal(LocationSearch, {}, function closeCallback(data) {
             if (data) {
@@ -100,16 +109,24 @@ function onNavigatingTo(args) {
             }
         }
     };
+
     viewModel.addWaypont = function () {
         page.showModal(LocationSearch, {}, function closeCallback(data) {
             if (data) {
                 viewModel.RideInfo.waypoints.push(data.placename);
                 viewModel.RideInfo.waypoints_id.push(data.place_id);
                 viewModel.RideInfo.waypoints_lat_lng.push(data.place_id_lat_lng);
+                viewModel.WayPoints.setItem(viewModel.WayPoints.length++, {location: data.placename})
+                console.log("SDDD", listwaypoints.height + 50);
+                listwaypoints.height = listwaypoints.height + 50;
+                clearMap();
                 onMapReady(Map_args);
+
             }
         }, fullscreen_modal);
     };
+
+    viewModel.WayPoints = new ObservableArray();
     viewModel.TimePicker = function () {
         var SelectedDate = new Date(viewModel.RideInfo.DateStamp);
         PickerManager.init(function (Time) {
@@ -185,7 +202,6 @@ function onMapReady(args) {
         markerSource.userData = {index: index};
         index++;
         mapView.addMarker(markerSource);
-
         destination_lat_lng = viewModel.RideInfo.destination_lat_lng;
         var markerDestination = new mapsModule.Marker();
         markerDestination.position = mapsModule.Position.positionFromLatLng(destination_lat_lng.lat, destination_lat_lng.lng);
@@ -194,7 +210,17 @@ function onMapReady(args) {
         markerDestination.userData = {index: index};
         index++;
         mapView.addMarker(markerDestination);
-
+        for (var i = 0; i < viewModel.RideInfo.waypoints.length; i++) {
+            console.log("SD", viewModel.RideInfo.waypoints[i]);
+            var markerWaypoints = new mapsModule.Marker();
+            markerWaypoints.position = mapsModule.Position.positionFromLatLng(viewModel.RideInfo.waypoints_lat_lng[i].lat, viewModel.RideInfo.waypoints_lat_lng[i].lng);
+            markerWaypoints.title = viewModel.RideInfo.waypoints[i];
+            markerWaypoints.snippet = "India";
+            markerWaypoints.userData = {index: index};
+            index++;
+            mapView.addMarker(markerWaypoints);
+        }
+        mapProgress.visibility = "visible";
         RouteFind();
     } catch (er) {
         console.error(er);
@@ -209,7 +235,7 @@ function onMarkerSelect(args) {
 
 
 function RouteFind() {
-    DirectionParser(viewModel.RideInfo.source_id, viewModel.RideInfo.destination_id, mapsModule, function (data, poly, distance) {
+    DirectionParser(viewModel.RideInfo.source_id, viewModel.RideInfo.waypoints_id, viewModel.RideInfo.destination_id, mapsModule, function (data, poly, distance) {
         console.log("DISTACNE ", distance);
         FareManage(distance);
         var zoomLevel = 1;
@@ -236,12 +262,12 @@ function RouteFind() {
                 zoomLevel = 1;
         }
         mapView.addPolyline(poly);
+        mapProgress.visibility = "collapsed";
 
         console.log(avglat);
         console.log(avglng);
         console.log(zoomLevel);
-        console.log("HEERE1");
-        viewModel.set("zoom", zoomLevel-1);
+        viewModel.set("zoom", zoomLevel - 0.500);
         viewModel.set("latitude", avglat);
         viewModel.set("longitude", avglng);
 
@@ -249,11 +275,6 @@ function RouteFind() {
 
 }
 
-function onCameraChanged(args) {
-    console.log("Camera changed: " + JSON.stringify(args.camera));
-}
-
 exports.onMapReady = onMapReady;
 exports.onMarkerSelect = onMarkerSelect;
-exports.onCameraChanged = onCameraChanged;
 exports.onNavigatingTo = onNavigatingTo;

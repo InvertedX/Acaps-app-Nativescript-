@@ -15,7 +15,7 @@ function ParseDirections(Source, waypoints, Destination, module, fll) {
      for (var i = 0; i < waypoints.length; i++) {
         console.log(waypoints[i]);
        if(i==0){
-           API_URL += "&waypoints=place_id:"+waypoints[i];
+           API_URL += "&waypoints=optimize:true|place_id:"+waypoints[i];
        }else {
            API_URL +="|place_id:"+waypoints[i];
        }
@@ -23,7 +23,7 @@ function ParseDirections(Source, waypoints, Destination, module, fll) {
     console.log(API_URL);
     http.getJSON(API_URL).then(function (data) {
         console.log(data.status);
-        fll(data, LegsItrator(data.routes[0], module), distance(data.routes[0].legs));
+        fll(data, LegsItrator(data.routes[0], module), distance(data.routes[0].legs),data.routes[0].waypoint_order);
     }, function (error) {
         console.log(error);
     });
@@ -40,8 +40,7 @@ function LegsItrator(Routes, module) {
         polyline.color = new Color('#dd4949');
         polyline.geodesic = true;
         console.log("POLY");
-        console.log(JSON.stringify(polyline));
-
+        console.log(JSON.stringify(polyline)); 
         return polyline;
 
     } catch (err) {

@@ -3,7 +3,6 @@
     <StackLayout>
         <StackLayout height="250" width="100%" backgroundColor="#FB5F5D">
         </StackLayout>
-        <ActivityIndicator id="spinner" busy="{{ isLoading }}"/>
         <StackLayout>
             <TextField
                     style="margin: 25;margin-top:20"

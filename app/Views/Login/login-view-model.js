@@ -5,9 +5,11 @@ var http = require('http');
 var Utility = require('../../Utils/Utility').Util();
 var topmost = frame.topmost();
 var applicationSettings = require("application-settings");
+var loader  = require('../../Utils/Utility').Loader;
 
 function createViewModel() {
     var viewModel = new Observable();
+    var LoaderPrgress = loader("Signing in..");
     viewModel.id = "";
     viewModel.password = "";
     var server = Utility.getServer();
@@ -22,14 +24,14 @@ function createViewModel() {
         if (viewModel.id.length == 0 || viewModel.password.length == 0) {
             alert("please provide valid Credentials");
         } else {
-            viewModel.set('isLoading', true);
+            LoaderPrgress.show();
             http.request({
                 url: server + '/api/login',
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 content: JSON.stringify({username: viewModel.id, password: viewModel.password})
             }).then(function (response) {
-                viewModel.set('isLoading', false);
+                LoaderPrgress.hide();
                 if (response.statusCode != 200) {
                     alert("Invalid credentials,please try again")
                 } else {
@@ -48,7 +50,7 @@ function createViewModel() {
                      }
                 }
             }, function (err) {
-                viewModel.set('isLoading', false);
+                LoaderPrgress.hide();
                 alert("Acaps encountered an error trying to connect to the server.please try again");
             });
 

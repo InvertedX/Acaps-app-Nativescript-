@@ -79,6 +79,41 @@ exports.PriceCalculate = function (Distance, rate, noSeats) {
     cost.maximum = cost.maximum / 10
     cost.maximum = Math.round(cost.maximum) * 10;
     return cost;
- 
+
+
+};
+
+exports.Loader = function (msg) {
+    var LoadingIndicator = require("nativescript-loading-indicator").LoadingIndicator;
+    var  loader = new LoadingIndicator();
+    var options = {
+        message: msg,
+        progress: 0.65,
+        android: {
+            indeterminate: true,
+            cancelable: false,
+            max: 100,
+            progressNumberFormat: "%1d/%2d",
+            progressPercentFormat: 0.53,
+            progressStyle: 1,
+            secondaryProgress: 1
+        },
+        ios: {
+            details: "Additional detail note!",
+            square: false,
+            margin: 10,
+            dimBackground: true,
+            color: "#4B9ED6",
+        }
+    };
+    return {
+        show: function () {
+            loader.show(options); // options is optional
+        },
+        hide: function () {
+            loader.hide(); // options is optional
+
+        }
+    }
 
 };

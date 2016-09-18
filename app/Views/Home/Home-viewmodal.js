@@ -17,14 +17,14 @@ function createViewModel(page) {
     viewModel.RideInfo = new Observable({
         source: "Choose",
         source_id: "",
-        source_lat_lng: {},
+        source_latlng: {},
         destination: "Choose",
         destination_id: "",
-        destination_lat_lng: {},
+        destination_latlng: {},
         waypoints: [],
-        waypoints_lat_lng: [],
+        waypoints_latlng: [],
         Date: "dd-mm-yyyy",
-        DateStamp: null
+        travel_date_time: null
     }); 
     viewModel.AddSource = function () { 
          page.showModal(LocationSearch, {}, function closeCallback(data) {
@@ -63,7 +63,7 @@ function createViewModel(page) {
                 var SelectedDate = new Date(timestamp);
                 var momentIns = new moment(SelectedDate);
                 viewModel.RideInfo.set('Date', momentIns.format("LL"));
-                viewModel.RideInfo.set('DateStamp', timestamp);
+                viewModel.RideInfo.set('travel_date_time', timestamp);
             }
 
         }, null, null, "Apply", "NotApply");

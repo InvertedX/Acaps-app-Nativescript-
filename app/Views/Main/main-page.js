@@ -7,17 +7,21 @@ var Page = require("ui/page");
 var dialogs = require("ui/dialogs");
 var Observable = require("data/observable").Observable;
 var activityIndicatorModule = require("ui/activity-indicator");
+var loader  = require('../../Utils/Utility').Loader;
 
 function onNavigatingTo(args) {
     var page = args.object;
     var viewModel = new Observable();
     viewModel.isLoading = true;
     var indicator = new activityIndicatorModule.ActivityIndicator();
-    indicator.busy = true;
+    indicator.busy = false;
+    var Loader = loader("Loading..");
+    Loader.show();
     page.bindingContext = viewModel; 
     http.getJSON(Const.FIREBASE).then(function (r) {
         applicationSettings.setString("server", r.S1);
         var key = applicationSettings.getString("s_key");
+        Loader.hide();
         if (key == undefined || key == null) {
             try {
                 var topmost = frame.topmost();

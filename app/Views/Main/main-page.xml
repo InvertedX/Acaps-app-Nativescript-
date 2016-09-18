@@ -2,7 +2,4 @@
       xmlns="http://schemas.nativescript.org/tns.xsd"
       navigatingTo="onNavigatingTo">
 
-
-    <ActivityIndicator color="red" width="50" busy="isLoading"/>
-
 </Page>

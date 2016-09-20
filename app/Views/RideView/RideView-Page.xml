@@ -26,12 +26,8 @@
 
                                 <Label col="1" marginTop="5" textWrap="true" fontSize="15"
                                        text="{{Ride.destination}}" class=""/>
-
                             </GridLayout>
-
-
                         </StackLayout>
-
 
                     </StackLayout>
                 </GridLayout>

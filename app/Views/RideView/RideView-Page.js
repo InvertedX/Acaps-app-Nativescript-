@@ -10,7 +10,7 @@ var viewModel;
 var context;
 function onNavigatingTo(args) {
     page = args.object;
-
+    page.cssFile = "RideView-Page.css";
     if (page.navigationContext) {
         context = page.navigationContext;
     }
@@ -29,13 +29,13 @@ function onNavigatingTo(args) {
         waypoints_latlng: "[{\"lat\":9.591566799999999,\"lng\":76.5221531}]",
         travel_date_time: "2016-09-20T17:59:00.000Z",
         seats: 6,
-         description : "Just testing out acaps",
+        description: "Just testing out acaps",
         gender_preference: "none",
-         Rate : 0,
-         Phone : 255636,
-         createdAt : "2016-09-18T12:29:40.000Z",
-         updatedAt : "2016-09-18T12:29:40.000Z",
-         userId : 2,
+        Rate: 0,
+        Phone: 255636,
+        createdAt: "2016-09-18T12:29:40.000Z",
+        updatedAt: "2016-09-18T12:29:40.000Z",
+        userId: 2,
         "carId": 1,
         "user": {
             id: 2,

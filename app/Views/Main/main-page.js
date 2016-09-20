@@ -17,8 +17,8 @@ function onNavigatingTo(args) {
     var indicator = new activityIndicatorModule.ActivityIndicator();
     indicator.busy = false;
     var Loader = loader("Loading..");
- /*   topmost.transition = {name: "fade"};
-    var navigationEntry = {
+    topmost.transition = {name: "fade"};
+   /* var navigationEntry = {
         moduleName: '/Views/RideView/RideView-Page',
          clearHistory: true
      };
@@ -34,6 +34,7 @@ function onNavigatingTo(args) {
                 Loader.hide();
                 try {
                     topmost.transition = {name: "fade"};
+
                     var navigationEntry = {
                         moduleName: '/Views/Login/Login-page',
                         clearHistory: true
@@ -57,7 +58,6 @@ function onNavigatingTo(args) {
                         topmost.transition = {name: "fade"};
                         var navigationEntry = {
                             moduleName: '/Views/Login/Login-page',
-
                             clearHistory: true
                         };
                         topmost.navigate(navigationEntry);
@@ -83,7 +83,6 @@ function onNavigatingTo(args) {
 
                             }
                         } else {
-
                             var navigationEntry = {
                                 moduleName: '/Views/AccountSettings/AccountSettings-page',
                                 clearHistory: true
@@ -119,7 +118,7 @@ function onNavigatingTo(args) {
             dialogs.alert("Network Error");
         });
 
-    }; 
+    };
     viewModel.GetServer();
 
     page.bindingContext = viewModel;

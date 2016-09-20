@@ -24,21 +24,20 @@ function onNavigatingTo(args) {
         context = page.navigationContext;
     }
     viewModel = new Observable();
-    viewModel.RideInfo = context; 
+    viewModel.RideInfo = context;
     viewModel.itemTap = function (args) {
         console.log(args.index);
         console.dump(rides[args.index]);
+        console.log(JSON.stringify(rides[args.index]));
         var navigationEntry = {
             backstackVisible: true,
-            moduleName: '/Views/RideView/RideView-Page',
-             
+            moduleName: '/Views/RideView/RideView-Page'
         };
         topmost.transition = {name: "slideLeft"};
 
         topmost.navigate(navigationEntry);
 
     };
-
     Listview = page.getViewById("Listview");
     loaderspinner = page.getViewById("loaderspinner");
     loaderspinner.visibility = "visible";

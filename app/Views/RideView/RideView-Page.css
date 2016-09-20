@@ -10,7 +10,11 @@
 .destination {
     margin: 25;
 }
-
+.icon_grey{
+    font-family: 'material_icons';
+    color: #434344;
+    font-size: 18;
+}
 .material-icons {
     font-family: 'material_icons';
 }
@@ -55,7 +59,8 @@
     margin-bottom: 25;
     background-color: #27ae60;
     color: white;
-}.bluebtn {
+}
+.bluebtn {
      margin: 15;
      margin-bottom: 25;
      background-color: #34495e;

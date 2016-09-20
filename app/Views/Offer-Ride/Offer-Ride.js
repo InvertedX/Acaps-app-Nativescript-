@@ -3,10 +3,11 @@
  */
 var application = require("application");
 var Observable = require("data/observable").Observable;
+var frame = require("ui/frame");
 var ObservableArray = require("data/observable-array").ObservableArray;
 var index = 1;
 var source_latlng, destination_latlng;
-var DirectionParser = require('./DirectionApiParser').Parse;
+var DirectionParser = require('../../Utils/DirectionApiParser').Parse;
 var dialogs = require('ui/dialogs');
 var mapView;
 var context = null;
@@ -28,6 +29,8 @@ var Server = require("../../Utils/Const").SERVER;
 exports.SERVER = Server;
 var cars;
 var cars_empty = false;
+
+
 function onNavigatingTo(args) {
     var page = args.object;
     if (page.navigationContext) {
@@ -301,42 +304,52 @@ function FareManage(Distance) {
     console.log(JSON.stringify(fare));
 }
 
+
 function onMapReady(args) {
     console.log("MAP Ready")
     Map_args = args;
     mapView = args.object;
-    try {
-        source_latlng = viewModel.RideInfo.source_latlng;
-        var markerSource = new mapsModule.Marker();
-        markerSource.position = mapsModule.Position.positionFromLatLng(source_latlng.lat, source_latlng.lng);
-        markerSource.title = viewModel.RideInfo.source;
-        markerSource.snippet = "India";
-        markerSource.userData = {index: index};
-        index++;
-        mapView.addMarker(markerSource);
-        destination_latlng = viewModel.RideInfo.destination_latlng;
-        var markerDestination = new mapsModule.Marker();
-        markerDestination.position = mapsModule.Position.positionFromLatLng(destination_latlng.lat, destination_latlng.lng);
-        markerDestination.title = viewModel.RideInfo.destination;
-        markerDestination.snippet = "India";
-        markerDestination.userData = {index: index};
-        index++;
-        mapView.addMarker(markerDestination);
-        for (var i = 0; i < viewModel.RideInfo.waypoints.length; i++) {
-            console.log("SD", viewModel.RideInfo.waypoints[i]);
-            var markerWaypoints = new mapsModule.Marker();
-            markerWaypoints.position = mapsModule.Position.positionFromLatLng(viewModel.RideInfo.waypoints_latlng[i].lat, viewModel.RideInfo.waypoints_latlng[i].lng);
-            markerWaypoints.title = viewModel.RideInfo.waypoints[i];
-            markerWaypoints.snippet = "India";
-            markerWaypoints.userData = {index: index};
-            index++;
-            mapView.addMarker(markerWaypoints);
-        }
-        mapProgress.visibility = "visible";
-        RouteFind();
-    } catch (er) {
-        console.error(er);
+    function setUpmarkers() {
+        new Promise(function () {
+            try {
+                source_latlng = viewModel.RideInfo.source_latlng;
+                var markerSource = new mapsModule.Marker();
+                markerSource.position = mapsModule.Position.positionFromLatLng(source_latlng.lat, source_latlng.lng);
+                markerSource.title = viewModel.RideInfo.source;
+                markerSource.snippet = "India";
+                markerSource.userData = {index: index};
+                index++;
+                mapView.addMarker(markerSource);
+                destination_latlng = viewModel.RideInfo.destination_latlng;
+                var markerDestination = new mapsModule.Marker();
+                markerDestination.position = mapsModule.Position.positionFromLatLng(destination_latlng.lat, destination_latlng.lng);
+                markerDestination.title = viewModel.RideInfo.destination;
+                markerDestination.snippet = "India";
+                markerDestination.userData = {index: index};
+                index++;
+                mapView.addMarker(markerDestination);
+                for (var i = 0; i < viewModel.RideInfo.waypoints.length; i++) {
+                    console.log("SD", viewModel.RideInfo.waypoints[i]);
+                    var markerWaypoints = new mapsModule.Marker();
+                    markerWaypoints.position = mapsModule.Position.positionFromLatLng(viewModel.RideInfo.waypoints_latlng[i].lat, viewModel.RideInfo.waypoints_latlng[i].lng);
+                    markerWaypoints.title = viewModel.RideInfo.waypoints[i];
+                    markerWaypoints.snippet = "India";
+                    markerWaypoints.userData = {index: index};
+                    index++;
+                    mapView.addMarker(markerWaypoints);
+                }
+                mapProgress.visibility = "visible";
+                RouteFind();
+            } catch (er) {
+                console.error(er);
+            }
+        })
+            .then(function () {
+                
+            });
     }
+    setUpmarkers();
+
 }
 
 function onMarkerSelect(args) {
@@ -396,6 +409,7 @@ function RouteFind() {
 
 
 }
+
 function OrderArray(array, arraymodel) {
     var result = [];
     for (var i = 0; i < array.length; i++) {

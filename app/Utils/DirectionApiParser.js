@@ -2,7 +2,7 @@
  * Created by Sarath Kumar on 9/7/2016.
  */
 var http = require('http');
-var API_KEY = require("../../Utils/Const").API_KEY;
+var API_KEY = require("./Const").API_KEY;
 var polyline = require('nativescript-google-maps-sdk').Polyline;
 var Color = require("color").Color;
 var polylineParser = require('polyline');

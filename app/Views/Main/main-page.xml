@@ -1,5 +1,11 @@
 <Page backgroundColor="#ecf0f1"
       xmlns="http://schemas.nativescript.org/tns.xsd"
       navigatingTo="onNavigatingTo">
+    <Page.actionBar>
+        <ActionBar color="white" title="Acaps">
+         </ActionBar>
+
+    </Page.actionBar>
+
 
 </Page>

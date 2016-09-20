@@ -1,22 +1,29 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" actionBarHidden="true"
       navigatingTo="onNavigatingTo">
     <StackLayout>
-        <StackLayout height="250" width="100%" backgroundColor="#FB5F5D">
-        </StackLayout>
-        <StackLayout>
+        <GridLayout height="250" width="100%" verticalAlignment="center" backgroundColor="#FB5F5D">
+            <StackLayout  verticalAlignment="center">
+                <Image width="100" src="res://icon_white"/>
+                <label textAlignment="center" color="white" marginTop="15" text="Amrita Carpooling System"/>
+            </StackLayout>
+
+        </GridLayout>
+        <StackLayout marginTop="40">
             <TextField
-                    style="margin: 25;margin-top:20"
+                    style="margin: 25;margin-top:30;font-size: 16"
                     id="email_address"
-                    hint="Login Id"
+                    hint="Amrita Vidya ID"
                     text="{{id}}"
                     keyboardType="text"/>
+
             <TextField
                     text="{{ password}}"
-                    style="margin: 25"
+                    style="margin: 25;margin-top: 10;font-size: 16"
                     id="password"
                     keyboardType="text"
-                    secure="true" hint="Password"/>
-            <Button id="redButton" width="150" tap="{{ login }}" text="Login"/>
+                    secure="true" hint="Amrita Vidya Password"/>
+            <Button id="redButton" width="250"  tap="{{ login }}" text="Login With Amrita Vidya"/>
+
         </StackLayout>
     </StackLayout>
 </Page>

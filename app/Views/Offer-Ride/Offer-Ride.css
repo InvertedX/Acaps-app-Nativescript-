@@ -45,7 +45,9 @@
     padding-right: 15;
     elevation: lower;
     color: #2a313b;
-  }
+    font-size: 14;
+    text-transform: lowercase;
+}
 
 
 .greenbtn {

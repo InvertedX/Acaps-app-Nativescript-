@@ -3,6 +3,10 @@
     margin-right: 15;
 }
 
+.page {
+    background-color: #f5f5f5;
+}
+
 .destination {
     margin: 25;
 }
@@ -23,23 +27,23 @@
     color: #39d179;
     font-size: 16;
 }
+.color-green {
+     color: #39d179;
+ }
+.icon_grey {
+    font-family: 'material_icons';
+    color: #C4BCC2;
+    font-size: 16;
+}
 
 .cardview {
-    color: #424242;
+    color:  black;
     font-size: 16;
     padding-top: 8;
     padding-bottom: 8;
     padding-right: 15;
     padding-left: 15;
 
-}
-
-.red_button {
-    background-color: #c0392b;
-    padding-left: 15;
-    border-color: transparent;
-    padding-right: 15;
-    elevation: lower;
 }
 
 .choosebox {
@@ -57,9 +61,14 @@
 .greenbtn {
     margin: 15;
     margin-bottom: 25;
-    background-color: #6FBE9C;
+    background-color: #27ae60;
     color: white;
-}
+}.bluebtn {
+     margin: 15;
+     margin-bottom: 25;
+     background-color: #34495e;
+     color: white;
+ }
 
 .greenbtn:focus {
     background-color: #228a48;

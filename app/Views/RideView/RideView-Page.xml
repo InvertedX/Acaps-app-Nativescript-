@@ -1,0 +1,41 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" actionBarHidden="true"
+      navigatingTo="onNavigatingTo" xmlns:maps="nativescript-google-maps-sdk" xmlns:Card="nativescript-cardview">
+
+    <StackLayout>
+
+        <GridLayout backgroundColor="#fc5555" rows="*" height="150">
+            <Card:CardView margin="15" elevation="8"
+                           radius="5">
+                <GridLayout>
+                    <StackLayout orientation="horizontal" marginTop="12" horizontalAlignment="center">
+                        <StackLayout orientation="vertical">
+
+                            <GridLayout columns="50,*" rows="auto">
+                                <Label col="0" marginTop="8" marginLeft="15" textWrap="true" text="&#xE40C;"
+                                       cssClass="icon_grey"/>
+                                <Label col="1" marginTop="5" fontSize="15" textWrap="true"
+                                       text="{{Ride.source}}"/>
+                            </GridLayout>
+
+                            <Label marginLeft="15" marginRight="5" textWrap="true"
+                                   text="&#xE5D4;"
+                                   cssClass="icon_grey"/>
+                            <GridLayout columns="50,*" rows="auto">
+
+                                <Label col="0" marginLeft="15" marginTop="8" text="&#xE0C8;" cssClass="icon_grey"/>
+
+                                <Label col="1" marginTop="5" textWrap="true" fontSize="15"
+                                       text="{{Ride.destination}}" class=""/>
+
+                            </GridLayout>
+
+
+                        </StackLayout>
+
+
+                    </StackLayout>
+                </GridLayout>
+            </Card:CardView>
+        </GridLayout>
+     </StackLayout>
+</Page>

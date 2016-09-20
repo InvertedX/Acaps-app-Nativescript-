@@ -4,7 +4,7 @@
         <ActionBar style="color: white;" title="Acaps">
         </ActionBar>
     </Page.actionBar>
-    <StackLayout orientation="vertical" style="margin-top: 25">
+    <StackLayout orientation="vertical" style="margin-top: 35">
         <Card:CardView horizontalAlignment="center" margin="15" elevation="8" radius="5">
             <StackLayout>
                 <GridLayout cssClass="cardview" columns="50, 30, *" rows="auto, auto">
@@ -31,16 +31,17 @@
 
                     <Label col="1" style=" margin-top: 15" cssClass="source_icon"
                            text="&#xE916;"/>
-                    <Button  tap="{{OpendatePicker}}"   cssClass="choosebox"   col="2" style="color: #2a313b; text-transform: lowercase"
-                              text="{{RideInfo.Date}}"/>
+                    <Button tap="{{OpendatePicker}}" cssClass="choosebox" col="2"
+                            style="color: #2a313b; text-transform: lowercase"
+                            text="{{RideInfo.Date}}"/>
                 </GridLayout>
 
             </StackLayout>
 
         </Card:CardView>
-        <StackLayout margin="15" marginTop="5">
-            <Button tap="{{ findRide }}" class="btn btn-primary btn-outline" text="Find Ride"/>
-            <Button tap="{{ offerRide }}" class="btn   btn-primary  btn-outline" text="Offer Ride"/>
+        <StackLayout margin="15" marginTop="5" horizontalAlignment="center" orientation="horizontal">
+            <Button tap="{{ findRide }}"  width="150" cssClass="greenbtn" text="Find Ride"/>
+            <Button tap="{{ offerRide }}" width="150" cssClass="greenbtn" text="Offer Ride"/>
         </StackLayout>
     </StackLayout>
 

@@ -1,7 +1,31 @@
-<Page xmlns="http://schemas.nativescript.org/tns.xsd" actionBarHidden="true"
+<Page xmlns="http://schemas.nativescript.org/tns.xsd"
       navigatingTo="onNavigatingTo">
-    <StackLayout>
+    <Page.actionBar>
+        <ActionBar style="color: white;" title="Set Up">
 
+        </ActionBar>
+    </Page.actionBar>
+    <GridLayout>
+        <StackLayout orientation="vertical" verticalAlignment="center" id="setup">
 
-    </StackLayout>
+            <TextField hint="Date Of birth" tap="{{OpendatePicker}}" margin="20" marginTop="20"
+                       verticalAlignment="center"
+                       text="{{dob}}"/>
+
+            <TextField hint="Mobile Number" keyboardType="number" margin="20" marginTop="10" verticalAlignment="center"
+                       text="{{mob}}"/>
+
+            <Button cssClass="greenbtn" text="Finish" margin="20" tap="{{ submitSetup }}"/>
+
+        </StackLayout>
+
+        <StackLayout id="otp">
+
+            <TextField hint="OTP CODE"  keyboardType="number" margin="20" marginTop="30" verticalAlignment="center"
+                       text="{{otp}}"/>
+
+            <Button margin="20" marginTop="15" cssClass="greenbtn" text="Submit" tap="{{ submitOtp }}"/>
+
+        </StackLayout>
+    </GridLayout>
 </Page>

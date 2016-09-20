@@ -14,6 +14,7 @@ function createViewModel(page) {
     var viewModel = new Observable();
     var dateView = page.getViewById("dateGrid");
     dateView.visibility = "collapsed";
+
     viewModel.RideInfo = new Observable({
         source: "Choose",
         source_id: "",
@@ -25,13 +26,14 @@ function createViewModel(page) {
         waypoints_latlng: [],
         Date: "dd-mm-yyyy",
         travel_date_time: null
-    }); 
-    viewModel.AddSource = function () { 
-         page.showModal(LocationSearch, {}, function closeCallback(data) {
+    });
+
+    viewModel.AddSource = function () {
+        page.showModal(LocationSearch, {}, function closeCallback(data) {
             if (data) {
                 viewModel.RideInfo.source = data.placename;
                 viewModel.RideInfo.source_id = data.place_id;
-                viewModel.RideInfo.source_lat_lng = data.place_id_lat_lng;
+                viewModel.RideInfo.source_latlng = data.place_id_lat_lng;
                 if (viewModel.RideInfo.destination != "Choose") {
                     dateView.visibility = "visible"
                 }
@@ -40,12 +42,13 @@ function createViewModel(page) {
         }, fullscreen_modal);
 
     };
+
     viewModel.AddDestination = function () {
         page.showModal(LocationSearch, {}, function closeCallback(data) {
             if (data) {
                 viewModel.RideInfo.destination = data.placename;
                 viewModel.RideInfo.destination_id = data.place_id;
-                viewModel.RideInfo.destination_lat_lng = data.place_id_lat_lng;
+                viewModel.RideInfo.destination_latlng = data.place_id_lat_lng;
                 if (viewModel.RideInfo.source != "Choose") {
                     dateView.visibility = "visible"
                 }
@@ -55,6 +58,7 @@ function createViewModel(page) {
 
 
     };
+    
     viewModel.OpendatePicker = function () {
 
         PickerManager.init(function (date) {
@@ -70,24 +74,31 @@ function createViewModel(page) {
 
         PickerManager.showDatePickerDialog();
     };
+
     viewModel.findRide = function () {
-        console.log("CLICK")
         var navigationEntry = {
-            moduleName: '/Views/Login/Login-page'
-         };
-        topmost.navigate(navigationEntry);
-    }; 
-    viewModel.offerRide = function () { 
-        var navigationEntry = {
-            moduleName: '/Views/Offer-Ride/Offer-Ride',
-            context : viewModel.RideInfo
-         };
+            moduleName: '/Views/Find-Ride/Find-Ride',
+            context: viewModel.RideInfo,
+            backstackVisible: true
+        };
+        topmost.transition = {name: "slideRight"};
         topmost.navigate(navigationEntry);
     };
-    
-    
+
+    viewModel.offerRide = function () {
+        var navigationEntry = {
+            backstackVisible: true, 
+            moduleName: '/Views/Offer-Ride/Offer-Ride',
+            context: viewModel.RideInfo
+        };
+        topmost.transition = {name: "slideLeft"};
+
+        topmost.navigate(navigationEntry);
+    };
+
+
     return viewModel;
- 
+
 }
 
 

@@ -5,7 +5,7 @@ var application = require("application");
 var imageSource = require("image-source");
 var http = require("http");
 var API_KEY = require("../../Utils/Const").API_KEY;
-
+ 
 function placefinder(place, call) {
     var _placesApiUrl = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?'
     _placesApiUrl += "input=" + place;

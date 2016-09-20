@@ -40,11 +40,11 @@ function createViewModel() {
                     
                     applicationSettings.setString('s_key', token);
                      if(response.isnew==true){
-
+                        
                          frame.topmost().navigate('/Views/AccountSettings/Account-page');
 
                      }else {
-                         console.log("Spot ")
+                         console.log("Spot ");
                          frame.topmost().navigate('/Views/Home/Home-page');
 
                      }

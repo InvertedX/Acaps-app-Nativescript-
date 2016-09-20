@@ -2,16 +2,18 @@
       showingModally="onNavigatingTo" xmlns:Card="nativescript-cardview" backgroundColor="Transparent">
 
     <Card:CardView horizontalAlignment="center" margin="8" elevation="12" radius="7">
-        <StackLayout height="*">
+        <StackLayout height="200">
             <SearchBar id="search" text="{{loactionSearch}}"/>
-            <StackLayout>
+            <StackLayout >
                 <ActivityIndicator id="progress" busy="busy"/>
-                <ListView id="listlocations" items="{{ locations }}"
-                          itemTap="{{listViewItemTap}}">
-                    <ListView.itemTemplate>
-                        <label width="*" cssClass="description" text="{{description}}"/>
-                    </ListView.itemTemplate>
-                </ListView>
+                <GridLayout  >
+                    <ListView id="listlocations" items="{{ locations }}"
+                              itemTap="{{listViewItemTap}}">
+                        <ListView.itemTemplate>
+                            <label width="*" cssClass="description" text="{{description}}"/>
+                        </ListView.itemTemplate>
+                    </ListView>
+                </GridLayout>
             </StackLayout>
         </StackLayout>
     </Card:CardView>

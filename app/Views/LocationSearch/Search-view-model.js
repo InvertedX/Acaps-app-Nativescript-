@@ -14,12 +14,12 @@ var googleServerApiKey = "AIzaSyAJsjpzjoI4d7QIm9fNse2-IUXrhhe2_Ys "
 var listViewModule = require("ui/list-view");
 var searchBarModule = require("ui/search-bar");
 var utils = require("utils/utils")
-
+var loader = require('../../Utils/Utility').Loader;
 var Callback;
 var progress, listview;
 var android;
 function createViewModel(callback, page) {
-
+    var loaderView = new loader("Loading...");
     if (page.android) {
         var imm = utils.ad.getInputMethodManager();
  
@@ -32,6 +32,7 @@ function createViewModel(callback, page) {
     viewModel.locations = new ObseravableArray.ObservableArray([]);
     viewModel.progressvisibile = "collapse";
     viewModel.loactionSearch = "";
+
     listViewModule =
         viewModel.on(Observable.propertyChangeEvent, function (propertyChangeData) {
             if (propertyChangeData.propertyName == 'loactionSearch') {
@@ -53,10 +54,12 @@ function createViewModel(callback, page) {
         });
 
     viewModel.listViewItemTap = function (args) {
-        console.log("CKD");
-        try {
+         try {
+             progress.visibility = "visible";
+             listview.visibility = "collapse";
             GPlaces.getplace(viewModel.locations.getItem(args.index).place_id, function (place) {
                 var rideData;
+        
                 rideData = {
                     placename: place.short_name,
                     place_id: place.place_id,

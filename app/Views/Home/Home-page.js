@@ -6,13 +6,7 @@ var frame = require("ui/frame");
 
 function onNavigatingTo(args) {
     var page = args.object; 
-    page.bindingContext = viewModel(page);
-    /*if (application.android) {
-        application.android.on(application.AndroidApplication.activityBackPressedEvent, function (args) {
-            args.cancel = true;
-            args.activity.finish();
-        });
-    }*/
+    page.bindingContext = viewModel(page); 
     page.cssFile = "Home-Page.css";
 }
 

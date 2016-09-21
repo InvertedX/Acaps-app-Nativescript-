@@ -18,13 +18,13 @@ function onNavigatingTo(args) {
     indicator.busy = false;
     var Loader = loader("Loading..");
     topmost.transition = {name: "fade"};
-   /* var navigationEntry = {
+    var navigationEntry = {
         moduleName: '/Views/RideView/RideView-Page',
          clearHistory: true
      };
     topmost.transition = {name: "slideLeft"};
     topmost.navigate(navigationEntry);
-    return;*/
+    return;
     viewModel.GetServer = function () {
         Loader.show();
         http.getJSON(Const.FIREBASE).then(function (r) {

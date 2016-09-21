@@ -10,10 +10,8 @@
 .destination {
     margin: 25;
 }
-.icon_grey{
-    font-family: 'material_icons';
-    color: #434344;
-    font-size: 18;
+.tabchildview{
+    color: black;
 }
 .material-icons {
     font-family: 'material_icons';
@@ -30,6 +28,11 @@
     font-family: 'material_icons';
     color: #39d179;
     font-size: 16;
+}
+.gray_icon {
+    font-family: 'material_icons';
+    color: #a1a1a2;
+    font-size: 18;
 }
 
 .cardview {

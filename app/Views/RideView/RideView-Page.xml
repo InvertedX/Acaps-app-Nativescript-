@@ -1,37 +1,164 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" actionBarHidden="true"
-      navigatingTo="onNavigatingTo" xmlns:maps="nativescript-google-maps-sdk" xmlns:Card="nativescript-cardview">
-
+      xmlns:maps="nativescript-google-maps-sdk"
+      navigatingTo="onNavigatingTo" xmlns:Card="nativescript-cardview">
     <StackLayout>
-
-        <GridLayout backgroundColor="#fc5555" rows="*" height="150">
-            <Card:CardView margin="15" elevation="8"
+        <StackLayout backgroundColor="#fc5555" >
+            <Card:CardView marginLeft="10" marginRight="10" marginTop="10" elevation="12" height="200"
                            radius="5">
-                <GridLayout>
-                    <StackLayout orientation="horizontal" marginTop="12" horizontalAlignment="center">
-                        <StackLayout orientation="vertical">
+                <StackLayout>
+                    <GridLayout >
+                        <StackLayout orientation="horizontal" marginTop="5">
+                            <StackLayout orientation="vertical">
+                                <Image marginTop="10" width="50" borderWidth="0" borderRadius="50"
+                                       src="{{RideInfo.user.profile_pic}}"/>
 
-                            <GridLayout columns="50,*" rows="auto">
-                                <Label col="0" marginTop="8" marginLeft="15" textWrap="true" text="&#xE40C;"
-                                       cssClass="icon_grey"/>
-                                <Label col="1" marginTop="5" fontSize="15" textWrap="true"
-                                       text="{{Ride.source}}"/>
-                            </GridLayout>
+                                <Label style="color: rgba(0, 0, 0, 0.55)" marginTop="8" textAlignment="center"
+                                       text="{{RideInfo.user.name}}"/>
+                                <GridLayout columns="50,*" rows="auto">
+                                    <Label col="0" marginTop="8" marginLeft="15" textWrap="true" text="&#xE40C;"
+                                           cssClass="gray_icon"/>
+                                    <Label col="1" marginTop="5" fontSize="15" textWrap="true"
+                                           text="{{RideInfo.source}}"/>
+                                </GridLayout>
 
-                            <Label marginLeft="15" marginRight="5" textWrap="true"
-                                   text="&#xE5D4;"
-                                   cssClass="icon_grey"/>
-                            <GridLayout columns="50,*" rows="auto">
+                                <Label marginLeft="15" marginTop="5" marginRight="10" textWrap="true"
+                                       text="&#xE5D4;"
+                                       cssClass="gray_icon"/>
+                                <GridLayout columns="50,*" rows="auto">
 
-                                <Label col="0" marginLeft="15" marginTop="8" text="&#xE0C8;" cssClass="icon_grey"/>
+                                    <Label col="0" marginLeft="15" marginTop="8" text="&#xE0C8;" cssClass="gray_icon"/>
 
-                                <Label col="1" marginTop="5" textWrap="true" fontSize="15"
-                                       text="{{Ride.destination}}" class=""/>
-                            </GridLayout>
+                                    <Label col="1" marginTop="5" textWrap="true" fontSize="15"
+                                           text="{{RideInfo.destination}}" class=""/>
+
+                                </GridLayout>
+
+                            </StackLayout>
                         </StackLayout>
+                    </GridLayout>
 
-                    </StackLayout>
-                </GridLayout>
+                </StackLayout>
             </Card:CardView>
-        </GridLayout>
-     </StackLayout>
+            <StackLayout  >
+                <Button marginLeft="5" marginRight="5" tap="{{requestRide}}" text="Request Ride"
+                        cssClass="choosebox"/>
+            </StackLayout>
+        </StackLayout>
+
+        <TabView tabsBackgroundColor="#fc5555" style="color: white" selectedColor="white">
+            <TabView.items>
+                <TabViewItem style="color: white" title="Ride">
+                    <TabViewItem.view>
+                        <ScrollView cssClass="tabchildview">
+                            <StackLayout>
+                                <Card:CardView margin="15" elevation="8"
+                                               radius="5">
+                                    <StackLayout>
+                                        <label text="Ride Details" margin="10"/>
+
+                                        <Label margin="15" style="color: #27ae60;font-size: 20" textAlignment="center"
+                                               text="{{RideInfo.Rate}}"/>
+
+                                        <Label style="color: rgba(0, 0, 0, 0.55)" textAlignment="center" margin="10"
+                                               text="{{day}}"/>
+
+                                        <Label style="color: rgba(0, 0, 0, 0.55)" textAlignment="center" margin="10"
+                                               text="{{time}}"/>
+
+                                        <GridLayout marginBottom="18" columns="auto,*" rows="auto" margin="10">
+                                            <Label text="Description" col="0" marginRight="15"
+                                                   style="color: rgba(0, 0, 0, 0.80)"/>
+                                            <Label text="{{RideInfo.description}}" col="1" textWrap="true"
+                                                   style="color: rgba(0, 0, 0, 0.54)"/>
+                                        </GridLayout>
+
+                                    </StackLayout>
+                                </Card:CardView>
+                                <Card:CardView margin="15" elevation="8"
+                                               radius="5">
+
+                                    <StackLayout orientation="vertical">
+
+                                        <label text="Car Details" margin="10"/>
+
+                                        <StackLayout horizontalAlignment="center" orientation="horizontal">
+
+                                            <GridLayout marginBottom="18" columns="auto,*" rows="auto" margin="10">
+                                                <StackLayout col="0" margin="20">
+
+                                                    <Label text="{{RideInfo.car.manufacturer}}"
+                                                           style="color: rgba(0, 0, 0, 0.54)"/>
+
+                                                    <Label text="{{RideInfo.car.model}}"
+                                                           style="color: rgba(0, 0, 0, 0.54)"/>
+
+                                                    <Label text="{{RideInfo.car.regnumber}}"
+                                                           style="color: rgba(0, 0, 0, 0.54)"/>
+
+
+                                                </StackLayout>
+                                                <Image col="1" borderRadius="50" margin="20" width="120"
+                                                       src="{{RideInfo.car.photo}}"/>
+                                            </GridLayout>
+                                        </StackLayout>
+
+                                    </StackLayout>
+                                </Card:CardView>
+
+                            </StackLayout>
+
+                        </ScrollView>
+                    </TabViewItem.view>
+                </TabViewItem>
+                <TabViewItem title="Route " style="color: white">
+                    <TabViewItem.view>
+                        <ScrollView cssClass="tabchildview">
+                            <StackLayout orientation="vertical">
+                                <GridLayout>
+                                    <maps:mapView height="250" latitude="{{ latitude }}" longitude="{{ longitude }}"
+                                                  zoom="{{ zoom }}" bearing="{{ bearing }}"
+                                                  tilt="{{ tilt }}" padding="{{ padding }}" mapReady="onMapReady"
+
+                                    />
+                                    <ActivityIndicator color="red" width="50" id="mapProgreess" busy="busy"/>
+                                </GridLayout>
+                                <Card:CardView margin="15" elevation="8"
+                                               radius="5">
+                                    <StackLayout>
+                                        <Label margin="10" style="color: #303030" text="WayPoints"/>
+
+                                        <ListView margin="15" items="{{RideInfo.waypoints}}">
+
+                                        </ListView>
+
+                                    </StackLayout>
+
+                                </Card:CardView>
+                            </StackLayout>
+                        </ScrollView>
+                    </TabViewItem.view>
+                </TabViewItem>
+                <TabViewItem title="Contact " style="color: white">
+                    <TabViewItem.view>
+                        <StackLayout cssClass="tabchildview">
+                            <Card:CardView margin="15" elevation="8"
+                                           radius="5">
+                                <StackLayout orientation="vertical">
+                                    <Image width="80" borderWidth="0" borderRadius="80"
+                                           src="{{RideInfo.user.profile_pic}}" marginTop="15"/>
+                                    <Label style="font-size: 16;color: #212121;" textAlignment="center"
+                                           text="{{RideInfo.user.name}}"/>
+                                    <Label style="color: #424242;" textAlignment="center"
+                                           text="{{RideInfo.user.Department}}"/>
+                                    <Button cssClass="greenbtn" tap="{{call}}" text="Call"/>
+                                </StackLayout>
+                            </Card:CardView>
+                        </StackLayout>
+                    </TabViewItem.view>
+                </TabViewItem>
+            </TabView.items>
+        </TabView>
+
+
+    </StackLayout>
 </Page>

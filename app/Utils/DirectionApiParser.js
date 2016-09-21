@@ -38,9 +38,7 @@ function LegsItrator(Routes, module) {
         polyline.visible = true;
         polyline.width = 11;
         polyline.color = new Color('#dd4949');
-        polyline.geodesic = true;
-        console.log("POLY");
-        console.log(JSON.stringify(polyline)); 
+        polyline.geodesic = true; 
         return polyline;
 
     } catch (err) {

@@ -79,7 +79,7 @@ function createViewModel(page) {
         var navigationEntry = {
             moduleName: '/Views/Find-Ride/Find-Ride',
             context: viewModel.RideInfo,
-            backstackVisible: true
+            backstackVisible: true,
         };
         topmost.transition = {name: "slideRight"};
         topmost.navigate(navigationEntry);

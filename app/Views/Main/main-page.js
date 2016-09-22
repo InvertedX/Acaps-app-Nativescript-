@@ -17,7 +17,7 @@ function onNavigatingTo(args) {
     var indicator = new activityIndicatorModule.ActivityIndicator();
     indicator.busy = false;
     var Loader = loader("Loading..");
-    /* topmost.transition = {name: "fade"};
+     /*topmost.transition = {name: "fade"};
      var navigationEntry = {
      moduleName: '/Views/RideView/RideView-Page',
      clearHistory: true

@@ -40,12 +40,11 @@
                 </StackLayout>
             </Card:CardView>
             <StackLayout  >
-                <Button marginLeft="5" id="requestRide" marginRight="5" tap="{{requestRide}}" text="&#xE8AE;"
+                <Button marginLeft="5" id="requestRide" marginRight="5" tap="{{requestRide}}" text="Request Ride"
                         cssClass="reqbutton"/>
             </StackLayout>
         </StackLayout>
-
-        <TabView tabsBackgroundColor="#fc5555" style="color: white" selectedColor="white">
+        <TabView tabsBackgroundColor="#fc5555" style="color: white" id="tabview" selectedColor="white">
             <TabView.items>
                 <TabViewItem style="color: white" title="Ride">
                     <TabViewItem.view>
@@ -154,6 +153,17 @@
                                 </StackLayout>
                             </Card:CardView>
                         </StackLayout>
+                    </TabViewItem.view>
+                </TabViewItem>
+                <TabViewItem title="Request" style="color: white">
+                    <TabViewItem.view>
+                     <StackLayout margin="25" verticalAlignment="center"  >
+                         <Label id="statusIcon" cssClass="icon_status" color="#2ecc71" text="&#xE52D;"/>
+                         <Label  id="status" cssClass="status"  text="Your ride request approved"/>
+
+                         <Button  marginTop="30"  marginLeft="5" id="tabRequestButton" marginRight="5" tap="{{requestRide}}" text="Request Ride"
+                                 cssClass="reqbutton"/>
+                      </StackLayout>
                     </TabViewItem.view>
                 </TabViewItem>
             </TabView.items>

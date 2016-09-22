@@ -48,17 +48,30 @@
 }
 
 .reqbutton {
-    background-color: #27ae60;
+    background-color: #2ecc71;
     color: white;
-    font-family: 'material_icons';
     text-transform: lowercase;
 }
 
 .greenbtn {
     margin: 15;
     margin-bottom: 25;
-    background-color: #27ae60;
+    background-color: #2ecc71;
     color: white;
+}
+
+.icon_status {
+    font-family: 'material_icons';
+    font-size: 60;
+    margin-top: 35;
+    margin-bottom: 15;
+    text-align: center;
+}
+
+.status {
+    color: rgba(0, 0, 0, 0.47);
+    font-size: 16;
+    text-align: center;
 }
 
 .bluebtn {

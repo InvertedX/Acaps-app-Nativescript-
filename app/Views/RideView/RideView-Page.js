@@ -18,18 +18,33 @@ var loader = require('../../Utils/Utility').Loader;
 var applicationSettings = require("application-settings");
 var loadingDialogue;
 var Utility = require('../../Utils/Utility').Util();
-var button;
-var SnackBar = require("nativescript-snackbar").SnackBar;
-
+var button, reqStatus;
+var SnackBarModule= require("nativescript-snackbar")  ;
+var tabViewModule = require("ui/tab-view");
+var stackLayoutModule = require("ui/layouts/stack-layout");
+var label = require("ui/label");
+var tabview, tabRequestButton, statusIcon, status;
+var SnackBar;
 function onNavigatingTo(args) {
     page = args.object;
-    SnackBar = new SnackBar();
+    SnackBar = new SnackBarModule.SnackBar();
     loadingDialogue = new loader("Loading...");
     page.cssFile = "RideView-Page.css";
     button = page.getViewById("requestRide");
+    statusIcon = page.getViewById("statusIcon");
+    tabRequestButton = page.getViewById("tabRequestButton");
+    tabview = page.getViewById("tabview");
+    status = page.getViewById("status");
+
+
+    status.visibility = "collapsed";
+    tabRequestButton.visibility = "collapsed";
+    statusIcon.visibility = "collapsed";
+
+
     mapProgress = page.getViewById('mapProgreess');
     viewModel = new Observable();
-    viewModel.RideInfo = page.navigationContext;
+    viewModel.RideInfo = JSON.parse('{"id":3,"source":"Kottayam","source_id":"ChIJX0NrbKErBjsRbtCNj_YCK74","source_latlng":{"lat":9.591566799999999,"lng":76.5221531},"destination":"Kochi","destination_id":"ChIJv8a-SlENCDsRkkGEpcqC1Qs","destination_latlng":{"lat":9.9312328,"lng":76.26730409999999},"waypoints":["Kayamkulam"],"waypoints_id":["ChIJ8zL7nVQcBjsRPbal1PT5xTw"],"waypoints_latlng":[{"lat":9.184365899999998,"lng":76.51515599999999}],"travel_date_time":"2017-09-19T18:30:00.000Z","seats":1,"description":"hnckckvm","gender_preference":"none","Rate":0,"Phone":255636,"createdAt":"2016-09-20T19:28:40.000Z","updatedAt":"2016-09-20T19:28:40.000Z","userId":2,"carId":1,"user":{"id":2,"Activated":true,"name":"Rob Stark","gender":"NULL","dob":null,"email":"rob@stark.com","Department":"Faculty","type":"faculty","phone":"255636","profile_pic":"http://192.168.1.101:2016/default","createdAt":"2016-09-18T11:26:23.000Z","updatedAt":"2016-09-18T11:26:23.000Z"},"car":{"id":1,"model":"Figo","manufacturer":"Ford","regnumber":"KL 10 11562","photo":"http://192.168.1.101:2016/01","createdAt":"2016-09-18T00:00:00.000Z","updatedAt":"2016-09-18T00:00:00.000Z","userId":2}}');
     var RideVenue = new Date(viewModel.RideInfo.travel_date_time);
     var momentIns = new moment(RideVenue);
     viewModel.day = momentIns.format("dddd, MMMM Do YYYY");
@@ -44,36 +59,118 @@ function onNavigatingTo(args) {
             headers: {"Content-Type": "application/json", "x-acaps-key": applicationSettings.getString("s_key")},
             content: JSON.stringify({ride_id: viewModel.RideInfo.id})
         }).then(function (response) {
-            loadingDialogue.hide();
-            if (response.statusCode == 401) {
-                console.log(401);
-            } else if (response.statusCode == 200) {
+                loadingDialogue.hide();
+                if (response.statusCode == 401) {
+                    console.log(401);
+                } else if (response.statusCode == 200) {
 
-                var Content = JSON.parse(response.content);
+                    var Content = JSON.parse(response.content);
 
-                if (Content.state == 'REQUEST_WAITING') {
-                    button.visibility = "hidden";
-                    snackbar.simple('Your ride request submitted for approval').then(function () {
+                    if (Content.state == 'REQUEST_WAITING') {
 
-                    });
+                        tabRequestButton.visibility = "collapsed";
+
+                        button.visibility = "collapsed";
+
+                        status.visibility = "visible";
+
+                        statusIcon.visibility = "visible";
+
+                        statusIcon.text = '\ue88c';
+
+                        status.text = "Your ride request submitted for approval";
+
+                        statusIcon.color = "#95a5a6";
+
+                        SnackBar.simple('Your ride request submitted for approval').then(function () {
+
+                        });
+                        try {
+                            console.log( tabview.selectedIndex)
+                            tabview.selectedIndex = 3
+
+                        }catch (er){
+                            console.log(er);
+                        }
+                    }
+                    if (Content.state == 'REQUEST_ACCEPTED') {
+
+
+                        tabRequestButton.visibility = "collapsed";
+
+                        button.visibility = "collapsed";
+
+                        status.visibility = "visible";
+
+                        statusIcon.visibility = "visible";
+
+                        statusIcon.text = '\ue86c';
+
+                        status.text = "Your ride request approved";
+
+                        statusIcon.color = "#2ecc71";
+
+
+                        SnackBar.simple('Your ride request approved').then(function () {
+
+                        });
+                        try {
+                            console.log( tabview.selectedIndex)
+                            tabview.selectedIndex = 3
+
+                        }catch (er){
+                            console.log(er);
+                        }
+                    }
+                    if (Content.state == 'REQUEST_DECLINED') {
+
+                        tabRequestButton.visibility = "collapsed";
+
+                        button.visibility = "collapsed";
+
+                        status.visibility = "visible";
+
+                        statusIcon.visibility = "visible";
+
+                        statusIcon.color = "#e74c3c";
+
+                        statusIcon.text = '\ue888';
+
+                        status.text = "Your ride request declined";
+
+                        SnackBar.simple('Your ride request declined').then(function () {
+
+                        });
+                        try {
+                            console.log( tabview.selectedIndex)
+                            tabview.selectedIndex = 3
+
+                        }catch (er){
+                            console.log(er);
+                        }
+                    }
+                    if (Content.state == 'NOT_REQUESTED') {
+                        button.visibility = "visible";
+                        tabRequestButton.visibility = "visible";
+                        button.visibility = "visible";
+                        status.visibility = "collapsed";
+                        statusIcon.visibility = "collapsed";
+
+                    }
+
+
                 }
-                if (Content.state == 'REQUEST_ACCEPTED') {
-                    button.visibility = "hidden";
-                    snackbar.simple('Your ride request approved').then(function () {
-
-                    });
-                }
-
             }
-        }, function (err) {
-            loadingDialogue.hide();
-            alert("Acaps encountered an error trying to connect to the server.please try again");
-        });
+            ,
+            function (err) {
+                loadingDialogue.hide();
+                alert("Acaps encountered an error trying to connect to the server.please try again");
+            }
+        );
 
     } catch (er) {
         console.error(er);
-    }
-
+    } 
 
     viewModel.requestRide = function () {
         loadingDialogue.show();

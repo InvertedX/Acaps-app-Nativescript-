@@ -40,8 +40,8 @@
                 </StackLayout>
             </Card:CardView>
             <StackLayout  >
-                <Button marginLeft="5" marginRight="5" tap="{{requestRide}}" text="Request Ride"
-                        cssClass="choosebox"/>
+                <Button marginLeft="5" id="requestRide" marginRight="5" tap="{{requestRide}}" text="&#xE8AE;"
+                        cssClass="reqbutton"/>
             </StackLayout>
         </StackLayout>
 

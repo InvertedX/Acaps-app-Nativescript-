@@ -25,25 +25,27 @@ function onNavigatingTo(args) {
     }
     viewModel = new Observable();
     viewModel.RideInfo = context;
+    
     viewModel.itemTap = function (args) {
         console.log(args.index);
         console.dump(rides[args.index]);
         console.log(JSON.stringify(rides[args.index]));
         var navigationEntry = {
             backstackVisible: true,
-            moduleName: '/Views/RideView/RideView-Page'
+            moduleName: '/Views/RideView/RideView-Page',
+            context: rides[args.index]
         };
         topmost.transition = {name: "slideLeft"};
 
         topmost.navigate(navigationEntry);
 
     };
+
     Listview = page.getViewById("Listview");
     loaderspinner = page.getViewById("loaderspinner");
     loaderspinner.visibility = "visible";
     Listview.visibility = "collapsed";
     getRides();
-    console.log(JSON.stringify(context));
     viewModel.AddSource = function () {
         page.showModal(LocationSearch, {}, function closeCallback(data) {
             if (data) {
@@ -114,17 +116,6 @@ function getRides() {
 
             rides = JSON.parse(data.content);
             if (data.statusCode == 200) {
-                rides = rides.map(function (item) {
-                    if (item.user.profile_pic.trim() == "") {
-
-                        item.user.profile_pic = appsettings.getString("server") + "/default"
-                    } else {
-                        item.user.profile_pic = appsettings.getString("server") + "/" + item.user.profile_pic
-
-                    }
-                    return item;
-                });
-                console.dump(rides);
                 Listview.items = rides;
             }
         } catch (err) {

@@ -3,10 +3,11 @@ var buttonModule = require('ui/button');
 var application = require("application");
 var platform = require("platform");
 var View = require("ui/core/view");
+ 
 function onNavigatingTo(args) {
     var page = args.object; 
     page.bindingContext = createViewModel();
- 
+
     if (application.android) {
         application.android.on(application.AndroidApplication.activityBackPressedEvent, function (args) {
             args.cancel = true;

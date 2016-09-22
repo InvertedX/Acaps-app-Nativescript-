@@ -17,18 +17,19 @@ function onNavigatingTo(args) {
     var indicator = new activityIndicatorModule.ActivityIndicator();
     indicator.busy = false;
     var Loader = loader("Loading..");
-    topmost.transition = {name: "fade"};
-    var navigationEntry = {
-        moduleName: '/Views/RideView/RideView-Page',
-         clearHistory: true
+    /* topmost.transition = {name: "fade"};
+     var navigationEntry = {
+     moduleName: '/Views/RideView/RideView-Page',
+     clearHistory: true
      };
-    topmost.transition = {name: "slideLeft"};
-    topmost.navigate(navigationEntry);
-    return;
+     topmost.transition = {name: "slideLeft"};
+     topmost.navigate(navigationEntry);
+     return;*/
     viewModel.GetServer = function () {
         Loader.show();
         http.getJSON(Const.FIREBASE).then(function (r) {
             applicationSettings.setString("server", r.S1);
+            applicationSettings.setString("ky", r.KY);
             var key = applicationSettings.getString("s_key");
             if (key == undefined || key == null) {
                 Loader.hide();
@@ -64,7 +65,6 @@ function onNavigatingTo(args) {
                         return;
                     }
                     try {
-                        console.dump(response);
                         var data = JSON.parse(response.content);
                         if (data) {
                             if (data.Activated == true) {

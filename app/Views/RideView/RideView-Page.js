@@ -12,84 +12,105 @@ var mapView, Map_args, context, viewModel, page, mapProgress;
 var index = 0;
 var mapsModule = require("nativescript-google-maps-sdk");
 var moment = require("moment");
-var phone = require( "nativescript-phone" );
-
+var http = require("http");
+var phone = require("nativescript-phone");
+var loader = require('../../Utils/Utility').Loader;
+var applicationSettings = require("application-settings");
+var loadingDialogue;
+var Utility = require('../../Utils/Utility').Util();
+var button;
+var SnackBar = require("nativescript-snackbar").SnackBar;
 
 function onNavigatingTo(args) {
     page = args.object;
-
+    SnackBar = new SnackBar();
+    loadingDialogue = new loader("Loading...");
     page.cssFile = "RideView-Page.css";
-    if (page.navigationContext) {
-        context = page.navigationContext;
-    }
+    button = page.getViewById("requestRide");
     mapProgress = page.getViewById('mapProgreess');
-
     viewModel = new Observable();
-
-    viewModel.RideInfo = {
-        "id": 3,
-        "source": "Kottayam",
-        "source_id": "ChIJX0NrbKErBjsRbtCNj_YCK74",
-        "source_latlng": "{\"lat\":9.591566799999999,\"lng\":76.5221531}",
-        "destination": "Kochi",
-        "destination_id": "ChIJv8a-SlENCDsRkkGEpcqC1Qs",
-        "destination_latlng": "{\"lat\":9.9312328,\"lng\":76.26730409999999}",
-        "waypoints": "[\"Kayamkulam\"]",
-        "waypoints_id": "[\"ChIJ8zL7nVQcBjsRPbal1PT5xTw\"]",
-        "waypoints_latlng": "[{\"lat\":9.184365899999998,\"lng\":76.51515599999999}]",
-        "travel_date_time": "2017-09-19T18:30:00.000Z",
-        "seats": 1,
-        "description": "Lorem Ipsum is simply dummy text of the printing and types type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
-        "gender_preference": "none",
-        "Rate": 33,
-        "Phone": 255636,
-        "createdAt": "2016-09-20T19:28:40.000Z",
-        "updatedAt": "2016-09-20T19:28:40.000Z",
-        "userId": 2,
-        "carId": 1,
-        "user": {
-            "id": 2,
-            "Activated": true,
-            "name": "Rob Stark",
-            "gender": "NULL",
-            "dob": null,
-            "email": "rob@stark.com",
-            "Department": "Faculty",
-            "type": "faculty",
-            "phone": "255636",
-            "profile_pic": "http://192.168.1.102:2016/default",
-            "createdAt": "2016-09-18T11:26:23.000Z",
-            "updatedAt": "2016-09-18T11:26:23.000Z"
-        },
-        "car": {
-            "id": 1,
-            "model": "Figo",
-            "manufacturer": "Ford",
-            "regnumber": "KL 10 11562",
-            "photo": "http://192.168.1.102:2016/01",
-            "createdAt": "2016-09-18T00:00:00.000Z",
-            "updatedAt": "2016-09-18T00:00:00.000Z",
-            "userId": 2
-        }
-    };
-
+    viewModel.RideInfo = page.navigationContext;
     var RideVenue = new Date(viewModel.RideInfo.travel_date_time);
     var momentIns = new moment(RideVenue);
     viewModel.day = momentIns.format("dddd, MMMM Do YYYY");
     viewModel.time = momentIns.format("h:mm a");
-    console.log(viewModel.time);
+    var server = Utility.getServer();
+    try {
+        loadingDialogue.show();
+        console.log("START");
+        http.request({
+            url: server + '/api/ridestatus',
+            method: "POST",
+            headers: {"Content-Type": "application/json", "x-acaps-key": applicationSettings.getString("s_key")},
+            content: JSON.stringify({ride_id: viewModel.RideInfo.id})
+        }).then(function (response) {
+            loadingDialogue.hide();
+            if (response.statusCode == 401) {
+                console.log(401);
+            } else if (response.statusCode == 200) {
+
+                var Content = JSON.parse(response.content);
+
+                if (Content.state == 'REQUEST_WAITING') {
+                    button.visibility = "hidden";
+                    snackbar.simple('Your ride request submitted for approval').then(function () {
+
+                    });
+                }
+                if (Content.state == 'REQUEST_ACCEPTED') {
+                    button.visibility = "hidden";
+                    snackbar.simple('Your ride request approved').then(function () {
+
+                    });
+                }
+
+            }
+        }, function (err) {
+            loadingDialogue.hide();
+            alert("Acaps encountered an error trying to connect to the server.please try again");
+        });
+
+    } catch (er) {
+        console.error(er);
+    }
+
+
     viewModel.requestRide = function () {
-      alert("Req");
+        loadingDialogue.show();
+        http.request({
+            url: server + '/api/requestride',
+            method: "POST",
+            headers: {"Content-Type": "application/json", "x-acaps-key": applicationSettings.getString("s_key")},
+            content: JSON.stringify({ride_id: viewModel.RideInfo.id})
+        }).then(function (response) {
+            loadingDialogue.hide();
+            if (response.statusCode == 401) {
+                console.log(401);
+            } else if (response.statusCode == 200) {
+                var Content = JSON.parse(response.content);
+                if (Content.state == "ALREADY_REQUESTED") {
+                    alert("you already requested for this ride");
+
+                } else if (Content.state == "REQUESTED") {
+                    alert("Your request has been sent ");
+                }
+                if (Content.state == "ERROR") {
+                    alert("Something happened please try later");
+                }
+
+            }
+        }, function (err) {
+            loadingDialogue.hide();
+            alert("Acaps encountered an error trying to connect to the server.please try again");
+        });
+
+
     };
 
     viewModel.call = function () {
-        phone.dial(viewModel.RideInfo.user.phone,true);
+        phone.dial(viewModel.RideInfo.user.phone, true);
     };
-    viewModel.RideInfo.waypoints = JSON.parse(viewModel.RideInfo.waypoints);
-    viewModel.RideInfo.source_latlng = JSON.parse(viewModel.RideInfo.source_latlng);
-    viewModel.RideInfo.destination_latlng = JSON.parse(viewModel.RideInfo.destination_latlng);
-    viewModel.RideInfo.waypoints_latlng = JSON.parse(viewModel.RideInfo.waypoints_latlng);
-    viewModel.RideInfo.waypoints_id = JSON.parse(viewModel.RideInfo.waypoints_id);
+
 
     if (viewModel.RideInfo.Rate == 0) {
         viewModel.RideInfo.Rate = "Free";

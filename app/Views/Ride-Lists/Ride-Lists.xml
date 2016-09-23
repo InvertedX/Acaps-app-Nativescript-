@@ -1,0 +1,13 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+
+    <StackLayout>
+        <ListView id="listview">
+            <ListView.itemTemplate>
+                <StackLayout>
+
+                </StackLayout>
+            </ListView.itemTemplate>
+        </ListView>
+
+    </StackLayout>
+</Page>

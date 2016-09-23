@@ -1,31 +1,29 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd"
       navigatingTo="onNavigatingTo">
     <Page.actionBar>
-        <ActionBar style="color: white;" title="Set Up">
+        <ActionBar style="color: white;" title="Verify Mobile number">
 
         </ActionBar>
     </Page.actionBar>
     <GridLayout>
         <StackLayout orientation="vertical" verticalAlignment="center" id="setup">
 
-            <TextField hint="Date Of birth" tap="{{OpendatePicker}}" margin="20" marginTop="20"
-                       verticalAlignment="center"
-                       text="{{dob}}"/>
-
-            <TextField hint="Mobile Number" keyboardType="number" margin="20" marginTop="10" verticalAlignment="center"
+            <TextField hint="Mobile Number" keyboardType="number" margin="20" marginTop="18" verticalAlignment="center"
                        text="{{mob}}"/>
 
-            <Button cssClass="greenbtn" text="Finish" margin="20" tap="{{ submitSetup }}"/>
+            <Button cssClass="greenbtn" text="Send OTP" margin="20" tap="{{ submitSetup }}"/>
 
         </StackLayout>
 
-        <StackLayout id="otp">
-
-            <TextField hint="OTP CODE"  keyboardType="number" margin="20" marginTop="30" verticalAlignment="center"
+        <StackLayout id="otp" orientation="vertical" verticalAlignment="center">
+            <Label text="Please Enter 6 Digit OTP code" textAlignment="center" style="color: rgba(0, 0, 0, 0.51) "/>
+            <TextField hint="OTP CODE" keyboardType="number" margin="20" marginTop="18" verticalAlignment="center"
                        text="{{otp}}"/>
 
             <Button margin="20" marginTop="15" cssClass="greenbtn" text="Submit" tap="{{ submitOtp }}"/>
 
         </StackLayout>
+
+
     </GridLayout>
 </Page>

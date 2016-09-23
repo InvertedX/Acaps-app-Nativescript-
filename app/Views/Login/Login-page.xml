@@ -3,7 +3,7 @@
     <StackLayout>
         <GridLayout height="250" width="100%" verticalAlignment="center" backgroundColor="#FB5F5D">
             <StackLayout  verticalAlignment="center">
-                <Image width="100" src="res://icon_white"/>
+                <Image width="80" src="res://icon_white"/>
                 <label textAlignment="center" color="white" marginTop="15" text="Amrita Carpooling System"/>
             </StackLayout>
 
@@ -12,7 +12,7 @@
             <TextField
                     style="margin: 25;margin-top:30;font-size: 16"
                     id="email_address"
-                    hint="Amrita Vidya ID"
+                    hint="Amritavidya ID"
                     text="{{id}}"
                     keyboardType="text"/>
 
@@ -22,7 +22,7 @@
                     id="password"
                     keyboardType="text"
                     secure="true" hint="Amrita Vidya Password"/>
-            <Button id="redButton" width="250"  tap="{{ login }}" text="Login With Amrita Vidya"/>
+            <Button id="redButton" width="250"  tap="{{ login }}" text="Login With Amritavidya"/>
 
         </StackLayout>
     </StackLayout>

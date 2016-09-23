@@ -1,0 +1,15 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd"
+      showingModally="onNavigatingTo"     navigatingTo="onNavigatingTo">
+    <StackLayout>
+        <StackLayout  orientation="vertical">
+            <Image marginTop="10" src="https://www.gstatic.com/mobilesdk/160503_mobilesdk/logo/2x/firebase_28dp.png" id="image" width="120" tap="{{choosecar}}"/>
+            <Button marginTop="15" text="Choose Car image" tap="{{choosecar}}"/>
+        </StackLayout>
+        <StackLayout orientation="vertical">
+            <TextField hint="Car Model" text="{{cardata.model}}"/>
+            <TextField hint="Car Manufacturer" text="{{cardata.manufacturer}}"/>
+            <TextField hint="Car Registration number" text="{{cardata.regnumber}}"/>
+        </StackLayout>
+        <Button text="Submit" marginTop="15" tap="{{AddCarDetails}}"/>
+    </StackLayout>
+</Page>

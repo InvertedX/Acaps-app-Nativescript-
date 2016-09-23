@@ -1,0 +1,14 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd"
+      navigatingTo="onNavigatingTo">
+    <Page.actionBar>
+        <ActionBar style="color: white;" title="Basic Info">
+
+        </ActionBar>
+    </Page.actionBar>
+    <StackLayout orientation="vertical">
+
+
+
+
+    </StackLayout>
+</Page>

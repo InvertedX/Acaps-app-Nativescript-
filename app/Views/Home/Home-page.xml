@@ -4,45 +4,92 @@
         <ActionBar style="color: white;" title="Acaps">
         </ActionBar>
     </Page.actionBar>
-    <StackLayout orientation="vertical" style="margin-top: 35">
-        <Card:CardView horizontalAlignment="center" margin="15" elevation="8" radius="5">
-            <StackLayout>
-                <GridLayout cssClass="cardview" columns="50, 30, *" rows="auto, auto">
-                    <Label col="0" cssClass="text-danger" style=" margin-top: 12"
-                           text="To"
-                    />
-                    <Label col="1" style=" margin-top: 15" cssClass="source_icon"
-                           text="&#xE40C;"/>
+    <StackLayout>
+        <TabView id="tabView" tabsBackgroundColor="White">
+            <TabView.items>
+                <TabViewItem title="Home" style="background-color: white">
+                    <TabViewItem.view>
+                        <StackLayout orientation="vertical" style="margin-top: 35">
+                            <Card:CardView horizontalAlignment="center" margin="15" elevation="8" radius="5">
+                                <StackLayout>
+                                    <GridLayout cssClass="cardview" columns="50, 30, *" rows="auto, auto">
+                                        <Label col="0" cssClass="text-danger" style=" margin-top: 12"
+                                               text="To"
+                                        />
+                                        <Label col="1" style=" margin-top: 15" cssClass="source_icon"
+                                               text="&#xE40C;"/>
 
-                    <Button col="2" cssClass="choosebox" tap="{{ AddDestination}}" text="{{RideInfo.destination}}"/>
+                                        <Button col="2" cssClass="choosebox" tap="{{ AddDestination}}"
+                                                text="{{RideInfo.destination}}"/>
 
-                    <Label row="1" text="From" style=" margin-top: 12" col="0"
-                    />
 
-                    <Label row="1" style=" margin-top: 15" col="1" class="destination_icon"
-                           text="&#xE0C8;"/>
+                                        <Label row="1" text="From" style=" margin-top: 12" col="0"
+                                        />
 
-                    <Button row="1" col="2" cssClass="choosebox" tap="{{AddSource}}"
-                            text="{{RideInfo.source }}"/>
+                                        <Label row="1" style=" margin-top: 15" col="1" class="destination_icon"
+                                               text="&#xE0C8;"/>
 
-                </GridLayout>
-                <GridLayout id="dateGrid" cssClass="cardview" columns="50, 30, *" rows="auto, auto">
-                    <Label col="0" style="color: black ;margin-top: 15" text="Date"/>
+                                        <Button row="1" col="2" cssClass="choosebox" tap="{{AddSource}}"
+                                                text="{{RideInfo.source }}"/>
 
-                    <Label col="1" style=" margin-top: 15" cssClass="source_icon"
-                           text="&#xE916;"/>
-                    <Button tap="{{OpendatePicker}}" cssClass="choosebox" col="2"
-                            style="color: #2a313b; text-transform: lowercase"
-                            text="{{RideInfo.Date}}"/>
-                </GridLayout>
+                                    </GridLayout>
+                                    <GridLayout id="dateGrid" cssClass="cardview" columns="50, 30, *" rows="auto, auto">
+                                        <Label col="0" style="color: black ;margin-top: 15" text="Date"/>
 
-            </StackLayout>
+                                        <Label col="1" style=" margin-top: 15" cssClass="source_icon"
+                                               text="&#xE916;"/>
+                                        <Button tap="{{OpendatePicker}}" cssClass="choosebox" col="2"
+                                                style="color: #2a313b; text-transform: lowercase"
+                                                text="{{RideInfo.Date}}"/>
+                                    </GridLayout>
 
-        </Card:CardView>
-        <StackLayout margin="15" marginTop="5" horizontalAlignment="center" orientation="horizontal">
-            <Button tap="{{ findRide }}"  width="150" cssClass="greenbtn" text="Find Ride"/>
-            <Button tap="{{ offerRide }}" width="150" cssClass="greenbtn" text="Offer Ride"/>
-        </StackLayout>
+                                </StackLayout>
+
+                            </Card:CardView>
+                            <StackLayout margin="15" marginTop="5" horizontalAlignment="center"
+                                         orientation="horizontal">
+                                <Button tap="{{ findRide }}" width="150" cssClass="greenbtn" text="Find Ride"/>
+                                <Button tap="{{ offerRide }}" width="150" cssClass="greenbtn" text="Offer Ride"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </TabViewItem.view>
+                </TabViewItem>
+                <TabViewItem style="background-color: white" title="Account">
+                    <TabViewItem.view>
+                        <ScrollView>
+                            <StackLayout marginTop="15">
+                                <Image tap="{{updatePic}}" margin="15" style="border-radius: 90" width="90"
+                                       src="{{user.profile_pic}}"/>
+                                <Label tap="{{updatePic}}" text="Update Profile" textAlignment="center"/>
+                                <Card:CardView horizontalAlignment="center" margin="15" elevation="8" radius="5">
+                                    <GridLayout padding="25">
+                                        <StackLayout>
+                                            <Label text="{{user.name}}" textAlignment="center" fontSize="18"
+                                                   style="color: rgba(0, 0, 0, 0.67)"/>
+
+                                            <Label marginTop="10" text="{{user.Department}}" textAlignment="center"
+                                                   fontSize="14"
+                                                   style="color: rgba(0, 0, 0, 0.67)"/>
+
+                                            <Label marginTop="10" text="{{user.type}}" textAlignment="center"
+                                                   fontSize="14"
+                                                   style="color: rgba(0, 0, 0, 0.67)"/>
+                                        </StackLayout>
+                                    </GridLayout>
+                                </Card:CardView>
+                                <GridLayout>
+                                    <StackLayout>
+                                        <Button tap="my" cssClass="mButtons" color="Black" text="My Rides"/>
+                                        <Button cssClass="mButtons" color="Black" text="Ride Requests"/>
+                                        <Button cssClass="mButtons" tap="{{carmanage}}" color="Black" text="My Cars"/>
+                                    </StackLayout>
+                                </GridLayout>
+                            </StackLayout>
+                        </ScrollView>
+                    </TabViewItem.view>
+                </TabViewItem>
+            </TabView.items>
+        </TabView>
     </StackLayout>
 
 </Page>

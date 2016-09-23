@@ -1,0 +1,23 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd"
+      navigatingTo="onNavigatingTo">
+    <Page.actionBar>
+        <ActionBar style="color: white;" title="Basic Info">
+
+        </ActionBar>
+    </Page.actionBar>
+    <StackLayout orientation="vertical">
+
+        <Image id="pro_pic" margin="15" style="border-radius: 90" width="90" tap="{{clicktoEdit}}" src="{{user.profile_pic}}"/>
+
+
+        <TextField hint="Date of birth" tap="{{OpendatePicker}}" text="{{dob}}" keyboardType="number"  margin="15"  verticalAlignment="center"/>
+
+
+        <TextField hint="Date of birth" tap="{{OpendatePicker}}" text="{{dob}}" keyboardType="number"  margin="15"  verticalAlignment="center"/>
+
+
+        <Button margin="20" marginTop="15" cssClass="greenbtn" text="Submit" tap="{{ submit }}"/>
+
+
+    </StackLayout>
+</Page>

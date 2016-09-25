@@ -85,7 +85,12 @@
                     </Card:CardView>
                 </ListView.itemTemplate>
             </ListView>
-
+            <StackLayout id="empty" marginTop="100" orientation="vertical">
+                <Label textAlignment="center" text="&#xE811;" fontSize="50"
+                       style="color: rgba(128, 128, 128, 0.92)"
+                       class="material-icons"/>
+                <Label textAlignment="center" marginTop="10" text="No rides Found"/>
+            </StackLayout>
         </GridLayout>
     </StackLayout>
 

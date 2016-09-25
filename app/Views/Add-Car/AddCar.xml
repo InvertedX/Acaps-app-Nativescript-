@@ -1,15 +1,21 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd"
       showingModally="onNavigatingTo"     navigatingTo="onNavigatingTo">
+    <action-bar color="white" title="Add Car Details">
+        <ActionBar.actionItems>
+            <ActionItem/>
+        </ActionBar.actionItems>
+    </action-bar>
     <StackLayout>
         <StackLayout  orientation="vertical">
-            <Image marginTop="10" src="https://www.gstatic.com/mobilesdk/160503_mobilesdk/logo/2x/firebase_28dp.png" id="image" width="120" tap="{{choosecar}}"/>
-            <Button marginTop="15" text="Choose Car image" tap="{{choosecar}}"/>
+            <Image marginTop="10" borderRadius="120"  src="" id="image" width="120" tap="{{choosecar}}"/>
         </StackLayout>
-        <StackLayout orientation="vertical">
+        <StackLayout orientation="vertical" margin="20">
             <TextField hint="Car Model" text="{{cardata.model}}"/>
             <TextField hint="Car Manufacturer" text="{{cardata.manufacturer}}"/>
             <TextField hint="Car Registration number" text="{{cardata.regnumber}}"/>
         </StackLayout>
-        <Button text="Submit" marginTop="15" tap="{{AddCarDetails}}"/>
+        <Button marginRight="25" marginLeft="25" cssClass="greenbtn" marginTop="15"  verticalAlignment="center" text="Choose Car image" tap="{{choosecar}}"/>
+
+        <Button cssClass="greenbtn" marginRight="25" marginLeft="25" text="Submit"  marginTop="15" tap="{{AddCarDetails}}"/>
     </StackLayout>
 </Page>

@@ -14,12 +14,13 @@ var permissions = require('nativescript-permissions');
 var loader = require('../../Utils/Utility').Loader;
 var CarImage;
 var server = require('../../Utils/Const').SERVER;
-var key = require('../../Utils/Const').API_KEY;
+var key = require('../../Utils/Const').SS_KEY;
 var LoaderDialoq;
 var http = require('http');
 function onNavigatingTo(args) {
     LoaderDialoq = new loader("Loading...");
     var page = args.object;
+    page.cssFile = "Add-Car.css";
     viewModel = new Observable();
     var http = require('http');
     CarImage = page.getViewById('image');
@@ -37,16 +38,15 @@ function onNavigatingTo(args) {
         if (viewModel.cardata.model.trim() == ""
             || viewModel.cardata.manufacturer.trim() == ""
             || viewModel.cardata.regnumber.trim() == "") {
-             dialog.alert("all fields are required");
-            console.log("FUCKED");
+            dialog.alert("all fields are required");
             return;
 
 
-         }
+        }
         console.log("REACHED fi3");
 
         if (viewModel.cardata.imageBS64 == "") {
-             dialog.alert("please choose an image");
+            dialog.alert("please choose an image");
 
             return;
         }
@@ -72,10 +72,12 @@ function onNavigatingTo(args) {
             var res = JSON.parse(response.content);
             console.dump(res);
             LoaderDialoq.hide();
-            if (res.status) {
+            if (res.status == true) {
+                console.log("SUCCESS")
                 alert("Success");
-            } else if (res.msg == "LIMIT_EXCEED") {
-                alert("Limit exceeded you can only add 10 cars");
+                frame.topmost().goBack();
+            } else {
+                dialog.alert("Limit exceeded you can only add 10 cars");
             }
         }, function (err) {
             console.log(err);

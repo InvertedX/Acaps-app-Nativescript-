@@ -1,13 +1,58 @@
-<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+<Page  xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:Card="nativescript-cardview"
+      navigatingTo="onNavigatingTo">
 
+    <Page.actionBar>
+        <ActionBar style="color: white;" title="{{title}}">
+        </ActionBar>
+    </Page.actionBar>
     <StackLayout>
-        <ListView id="listview">
-            <ListView.itemTemplate>
-                <StackLayout>
 
-                </StackLayout>
-            </ListView.itemTemplate>
-        </ListView>
+        <GridLayout>
 
+            <ActivityIndicator id="loaderspinner" busy="true" width="50" color="red"/>
+
+            <ListView id="Listview" itemTap="{{itemTap}}">
+                <ListView.itemTemplate>
+                    <Card:CardView margin="15" elevation="8"
+                                   radius="5">
+                        <StackLayout orientation="horizontal">
+                            <Image margin="15" style="border-radius: 50" width="50" src="{{user.profile_pic}}"/>
+                            <StackLayout orientation="vertical" marginTop="25" margin="10">
+                                <Label marginTop="5" text="{{ user.name }}" class="rideUserTitle"/>
+
+                                <StackLayout orientation="horizontal">
+                                    <StackLayout orientation="horizontal">
+                                        <Label marginTop="8" marginRight="5" textWrap="true" text="&#xE40C;"
+                                               cssClass="icon_grey"/>
+                                        <Label marginTop="5" textWrap="true" text="{{ destination}}"/>
+                                    </StackLayout>
+
+                                    <Label marginTop="8" marginLeft="15" fontSize="16" marginRight="5" textWrap="true"
+                                           text="&#xE5C8;" cssClass="icon_grey"/>
+
+                                    <StackLayout orientation="horizontal" marginLeft="15">
+                                        <Label marginTop="8" marginRight="5" text="&#xE0C8;" cssClass="icon_grey"/>
+                                        <Label marginTop="5" textWrap="true" text="{{ source }}" class="rideUserTitle"/>
+                                    </StackLayout>
+                                </StackLayout>
+
+                            </StackLayout>
+                            <StackLayout orientation="horizontal" marginTop="30" margin="8">
+                                <Label marginTop="5" id="name" cssClass="color-green" textWrap="true"
+                                       text="{{ '&#8377;' + Rate }}"/>
+                            </StackLayout>
+                        </StackLayout>
+
+                    </Card:CardView>
+                </ListView.itemTemplate>
+            </ListView>
+
+            <StackLayout id="empty" marginTop="100" orientation="vertical">
+                <Label textAlignment="center" text="&#xE811;" fontSize="50"
+                       style="color: rgba(128, 128, 128, 0.92)"
+                       class="material-icons"/>
+                <Label textAlignment="center" marginTop="10" text="No rides Found"/>
+            </StackLayout>
+        </GridLayout>
     </StackLayout>
 </Page>

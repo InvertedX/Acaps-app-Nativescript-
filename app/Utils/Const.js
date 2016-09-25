@@ -7,6 +7,8 @@ exports.Const = {
    
 };
 
-exports.API_KEY =  Application.getString("s_key");
+exports.API_KEY =  Application.getString("ky");
+
+exports.SS_KEY =  Application.getString("s_key");
 
 exports.SERVER  = Application.getString("server");

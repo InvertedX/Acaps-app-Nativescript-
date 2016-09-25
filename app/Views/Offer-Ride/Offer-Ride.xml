@@ -161,7 +161,7 @@
                                             <label cssClass="material-icons" verticalAlignment="center"  textAlignment="center" fontSize="50" color="#757575" text="&#xE531;"/>
                                             <label textAlignment="center" verticalAlignment="center"
                                                    text="you haven't set you car details"/>
-                                            <Button cssClass="bluebtn" text="Add Car" style="text-transform: lowercase"/>
+                                            <Button cssClass="bluebtn" tap="{{addCar}}" text="Add Car" style="text-transform: lowercase"/>
                                         </stack-layout>
                                     </StackLayout>
                                 </StackLayout>

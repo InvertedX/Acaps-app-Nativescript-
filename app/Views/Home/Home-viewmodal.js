@@ -18,21 +18,20 @@ var permissions = require('nativescript-permissions');
 var loader = require('../../Utils/Utility').Loader;
 var Loader;
 var viewModel;
+
 function createViewModel(page) {
     Loader = new loader("Updating...");
     viewModel = new Observable();
     if (page.navigationContext) {
-        viewModel.user = page.navigationContext
+        viewModel.user = page.navigationContext;
         viewModel.user.profile_pic = applicationSettings.getString('server') + '/' + viewModel.user.profile_pic;
     } else {
-        getUser(function (user) {
-            user.profile_pic = applicationSettings.getString('server') + '/' + user.profile_pic;
-            viewModel.set('user', user);
-        })
+       getLocalData();
     }
     var topmost = frame.topmost();
     var dateView = page.getViewById("dateGrid");
     dateView.visibility = "collapsed";
+
     viewModel.RideInfo = new Observable({
         source: "Choose",
         source_id: "",
@@ -45,6 +44,7 @@ function createViewModel(page) {
         Date: "dd-mm-yyyy",
         travel_date_time: null
     });
+
     viewModel.AddSource = function () {
         page.showModal(LocationSearch, {}, function closeCallback(data) {
             if (data) {
@@ -59,6 +59,7 @@ function createViewModel(page) {
         }, fullscreen_modal);
 
     };
+
     viewModel.AddDestination = function () {
         page.showModal(LocationSearch, {}, function closeCallback(data) {
             if (data) {
@@ -74,6 +75,7 @@ function createViewModel(page) {
 
 
     };
+
     viewModel.OpendatePicker = function () {
 
         PickerManager.init(function (date) {
@@ -89,6 +91,7 @@ function createViewModel(page) {
 
         PickerManager.showDatePickerDialog();
     };
+
     viewModel.findRide = function () {
         var navigationEntry = {
             moduleName: '/Views/Find-Ride/Find-Ride',
@@ -99,20 +102,18 @@ function createViewModel(page) {
         topmost.transition = {name: "slideRight"};
         topmost.navigate(navigationEntry);
     };
+
     viewModel.offerRide = function () {
         var navigationEntry = {
-            backstackVisible: true,
-            clearHistory: false,
             moduleName: '/Views/Offer-Ride/Offer-Ride',
             context: viewModel.RideInfo
         };
         topmost.transition = {name: "slideLeft"};
-
         topmost.navigate(navigationEntry);
     };
+
     viewModel.openEditAccount = function () {
         var navigationEntry = {
-            backstackVisible: true,
             moduleName: '/Views/BasicInfo/Basic-Info',
             context: viewModel.user
         };
@@ -120,6 +121,7 @@ function createViewModel(page) {
 
         topmost.navigate(navigationEntry);
     };
+
     viewModel.updatePic = function () {
         permissions.requestPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE, "Acaps Require External storage Access")
             .then(function () {
@@ -132,9 +134,10 @@ function createViewModel(page) {
                 alert('Acaps Require External storage Access .please grant necessary permission')
             });
     };
+
     viewModel.carmanage = function () {
         var navigationEntry = {
-            moduleName: "/Views/Add-Car/AddCar",
+            moduleName: "/Views/CarManage/CarManage-page",
             backstackVisible: true,
             clearHistory: false,
             context: viewModel.RideInfo,
@@ -143,9 +146,56 @@ function createViewModel(page) {
         topmost.navigate(navigationEntry);
 
     }
+
+    viewModel.myrides = function () {
+        var navigationEntry = {
+            backstackVisible: true,
+            moduleName: '/Views/Ride-Lists/Ride-Lists',
+            context: {restrict: "OFFERED_RIDES"}
+        };
+        topmost.transition = {name: "slideLeft"};
+        topmost.navigate(navigationEntry);
+    };
+
+    viewModel.requested = function () {
+        var navigationEntry = {
+            backstackVisible: true,
+            moduleName: '/Views/Ride-Lists/Ride-Lists',
+            context: {restrict: "REQUESTED_RIDES"}
+        };
+        topmost.transition = {name: "slideLeft"};
+        topmost.navigate(navigationEntry);
+    };
+    viewModel.logout = function () {
+        applicationSettings.clear();
+        var navigationEntry = {
+            moduleName: '/Views/Main/main-page',
+            clearHistory: true,
+            backstackVisible: true,
+        };
+        topmost.transition = {name: "slideLeft"};
+        topmost.navigate(navigationEntry);
+
+    };
     return viewModel;
 
 }
+
+
+var UpdaetLocal = function (user) {
+    applicationSettings.setString("name",user.name);
+    applicationSettings.setString("Department",user.Department);
+    applicationSettings.setString("type",user.type);
+    applicationSettings.setString("profile_pic",user.profile_pic);
+    getLocalData();
+};
+var getLocalData = function () {
+    viewModel.user =  new Observable(); ;
+    viewModel.user.name = applicationSettings.getString("name");
+    viewModel.user.Department = applicationSettings.getString("Department");
+    viewModel.user.Department = applicationSettings.getString("type");
+    viewModel.user.profile_pic = applicationSettings.getString('server') + '/' +applicationSettings.getString("profile_pic");;
+};
 function getUser(callme) {
     Loader.show();
     http.request({
@@ -167,6 +217,7 @@ function getUser(callme) {
             }
             var data = JSON.parse(response.content);
             if (data) {
+                UpdaetLocal(data);
                 callme(data);
             }
         }

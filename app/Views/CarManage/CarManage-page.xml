@@ -1,14 +1,33 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd"
-      navigatingTo="onNavigatingTo">
+      navigatingTo="onNavigatingTo" xmlns:Card="nativescript-cardview">
     <Page.actionBar>
-        <ActionBar style="color: white;" title="Basic Info">
+        <ActionBar style="color: white;" title="Cars">
 
         </ActionBar>
     </Page.actionBar>
-    <StackLayout orientation="vertical">
+    <GridLayout rows="*,auto">
+        <ListView row="0" id="listview">
+            <ListView.itemTemplate>
+                <StackLayout horizontalAlignment="center" orientation="horizontal">
+                    <Card:CardView horizontalAlignment="center" margin="8" elevation="12" radius="7">
+                        <GridLayout marginBottom="18" columns="auto,*" rows="auto" margin="10">
+                            <StackLayout col="0" margin="20">
+                                <Label text="{{manufacturer}}"
+                                       style="color: rgba(0, 0, 0, 0.54);font-weight: bolder"/>
+                                <Label marginTop="10" text="{{ model}}"
+                                       style="color: rgba(0, 0, 0, 0.54);font-weight: bold"/>
+                                <Label text="{{regnumber}}" marginTop="10"
+                                       style="color: rgba(0, 0, 0, 0.54)"/>
+                            </StackLayout>
+                            <Image col="1" width="80" height="80" borderRadius="80" borderWidth="1" borderColor="Black" margin="5"
+                                   src="{{photo}}"/>
+                        </GridLayout>
+                    </Card:CardView>
+                </StackLayout>
+            </ListView.itemTemplate>
 
+        </ListView>
+        <Button row="1" tap="{{add}}" text="Add New"/>
+    </GridLayout>
 
-
-
-    </StackLayout>
 </Page>

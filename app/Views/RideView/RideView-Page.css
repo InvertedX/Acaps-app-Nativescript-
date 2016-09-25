@@ -1,0 +1,112 @@
+.source {
+    margin-right: 15;
+    margin-right: 15;
+}
+.page {
+    background-color: #f5f5f5;
+}
+.destination {
+    margin: 25;
+}
+.tabchildview {
+    color: black;
+}
+.material-icons {
+    font-family: 'material_icons';
+}
+.destination_icon {
+    font-family: 'material_icons';
+    color: #39d179;
+    font-size: 16;
+}
+.source_icon {
+    font-family: 'material_icons';
+    color: #39d179;
+    font-size: 16;
+}
+.gray_icon {
+    font-family: 'material_icons';
+    color: #a1a1a2;
+    font-size: 18;
+}
+.cardview {
+    font-size: 16;
+    padding-top: 8;
+    padding-bottom: 8;
+    padding-right: 15;
+    padding-left: 15;
+}
+.reqbutton {
+    background-color: #2ecc71;
+    color: white;
+    text-transform: lowercase;
+}
+.greenbtn {
+    margin: 15;
+    margin-bottom: 25;
+    background-color: #2ecc71;
+    color: white;
+}
+.icon_status {
+    font-family: 'material_icons';
+    font-size: 60;
+    margin-top: 35;
+    margin-bottom: 15;
+    text-align: center;
+}
+.status {
+    color: rgba(0, 0, 0, 0.47);
+    font-size: 16;
+    text-align: center;
+}
+.bluebtn {
+    margin: 15;
+    margin-bottom: 25;
+    background-color: #34495e;
+    color: white;
+}
+.greenbtn:focus {
+    background-color: #228a48;
+    color: #d5d5d5;
+}
+.choosebox {
+    font-family: 'material_icons';
+    background-color: #2ecc71;
+    padding-left: 15;
+    border-color : transparent;
+    padding-right: 15;
+    elevation: lower;
+    color: #2a313b;
+    font-size: 14;
+    text-transform: lowercase;
+}
+.acceptbtn{
+    font-family: 'material_icons';
+    background-color: #2ecc71;
+
+}.acceptbtn:focus{
+    font-family: 'material_icons';
+    background-color: #27ae60;
+
+}
+.declinebtn{
+    font-family: 'material_icons';
+    background-color: #e74c3c;
+
+}.declinebtn:focus{
+    font-family: 'material_icons';
+    background-color: #c0392b;
+
+}
+.choosebox:focus{
+    font-family: 'material_icons';
+    background-color: #27ae60;
+    padding-left: 15;
+    border-color : transparent;
+    padding-right: 15;
+    elevation: lower;
+    color: #2a313b;
+    font-size: 14;
+    text-transform: lowercase;
+}
+

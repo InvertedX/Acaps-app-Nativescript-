@@ -18,11 +18,7 @@ function onNavigatingTo(args) {
     var page = args.object;
     topmost = frame.topmost();
     var viewModel = new Observable();
-    viewModel.isLoading = true;
-    var indicator = new activityIndicatorModule.ActivityIndicator();
-    indicator.busy = false;
     viewModel.GetServer = function () {
-
         appversion.getVersionCode().then(function (vcode) {
             Loader.show();
             http.getJSON(Const.FIREBASE).then(function (r) {
@@ -52,7 +48,9 @@ function onNavigatingTo(args) {
                         topmost.transition = {name: "fade"};
                         var navigationEntry = {
                             moduleName: '/Views/Login/Login-page',
-                            clearHistory: true
+                            clearHistory: true,
+                            backstackVisible: true
+
                         };
                         topmost.navigate(navigationEntry);
                     } catch (er) {
@@ -81,12 +79,18 @@ function onNavigatingTo(args) {
                         try {
                             var data = JSON.parse(response.content);
                             if (data) {
+
                                 if (data.Activated == true) {
+                                    applicationSettings.setString("name",data.name);
+                                    applicationSettings.setNumber("u",data.id);
+                                    applicationSettings.setString("Department",data.Department);
+                                    applicationSettings.setString("type",data.type);
+                                    applicationSettings.setString("profile_pic",data.profile_pic);
+
                                     var navigationEntry = {
                                         moduleName: '/Views/Home/Home-page',
+                                        clearHistory: true,
                                         context: data,
-                                        backstackVisible: false,
-                                        clearHistory: true
                                     };
                                     topmost.transition = {name: "fade"};
                                     topmost.navigate(navigationEntry);
@@ -100,7 +104,9 @@ function onNavigatingTo(args) {
                             } else {
                                 var navigationEntry = {
                                     moduleName: '/Views/AccountSettings/Account-page',
-                                    clearHistory: true
+                                    clearHistory: true,
+                                    backstackVisible: false,
+
                                 };
                                 topmost.transition = {name: "slideRight"};
                                 topmost.navigate(navigationEntry);
@@ -136,10 +142,7 @@ function onNavigatingTo(args) {
 
     };
     viewModel.GetServer();
-
     page.bindingContext = viewModel;
-
-
 }
 
 exports.onNavigatingTo = onNavigatingTo;

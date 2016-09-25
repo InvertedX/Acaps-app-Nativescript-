@@ -14,7 +14,7 @@ var appsettings = require("application-settings");
 var http = require("http");
 var Listview = null;
 var loaderspinner;
-var topmost, rides;
+var topmost, rides, empty;
 
 function onNavigatingTo(args) {
     var page = args.object;
@@ -25,7 +25,8 @@ function onNavigatingTo(args) {
     }
     viewModel = new Observable();
     viewModel.RideInfo = context;
-    
+    empty = page.getViewById('empty');
+    empty.visibility = "collapsed";
     viewModel.itemTap = function (args) {
         console.log(args.index);
         console.dump(rides[args.index]);
@@ -70,7 +71,6 @@ function onNavigatingTo(args) {
     };
     viewModel.OpendatePicker = function () {
         var SelectedDate = new Date(viewModel.RideInfo.travel_date_time);
-
         PickerManager.init(function (date) {
             if (date) {
                 var timestamp = new moment(date, "DD MM YYYY HH:mm z");
@@ -81,7 +81,7 @@ function onNavigatingTo(args) {
                 viewModel.RideInfo.set('travel_date_time', timestamp);
             }
 
-        }, "Select Date", SelectedDate);
+        }, null, null, "Apply", "NotApply");
 
         PickerManager.showDatePickerDialog();
     };
@@ -113,9 +113,14 @@ function getRides() {
         loaderspinner.visibility = "collapsed";
         Listview.visibility = "visible";
         try {
-
+            console.log(data.content);
             rides = JSON.parse(data.content);
             if (data.statusCode == 200) {
+                if(rides.length==0){
+                    empty.visibility = "visible";
+                    Listview.visibility = "collapsed";
+
+                }
                 Listview.items = rides;
             }
         } catch (err) {

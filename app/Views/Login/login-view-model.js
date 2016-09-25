@@ -5,7 +5,7 @@ var http = require('http');
 var Utility = require('../../Utils/Utility').Util();
 var topmost = frame.topmost();
 var applicationSettings = require("application-settings");
-var loader  = require('../../Utils/Utility').Loader;
+var loader = require('../../Utils/Utility').Loader;
 
 function createViewModel() {
     var viewModel = new Observable();
@@ -18,7 +18,6 @@ function createViewModel() {
     }
     viewModel.isLoading = false;
     viewModel.login = function () {
-        console.log("CLICK")
         viewModel.id = viewModel.id.trim();
         viewModel.password = viewModel.password.trim();
         if (viewModel.id.length == 0 || viewModel.password.length == 0) {
@@ -37,17 +36,16 @@ function createViewModel() {
                 } else {
                     var response = JSON.parse(response.content);
                     var token = response.token;
-                    
+
                     applicationSettings.setString('s_key', token);
-                     if(response.isnew==true){
-                        
-                         frame.topmost().navigate('/Views/AccountSettings/Account-page');
+                    if (response.isnew == true) {
 
-                     }else {
-                         console.log("Spot ");
-                         frame.topmost().navigate('/Views/Home/Home-page');
+                        frame.topmost().navigate('/Views/AccountSettings/Account-page');
 
-                     }
+                    } else {
+                        frame.topmost().navigate('/Views/Main/main-page');
+
+                    }
                 }
             }, function (err) {
                 LoaderPrgress.hide();

@@ -103,6 +103,17 @@ function onNavigatingTo(args) {
 
 
     };
+    viewModel.addCar = function () {
+        var navigationEntry = {
+            backstackVisible: true,
+            clearHistory: false,
+            moduleName: '/Views/CarManage/CarManage-page',
+            context: viewModel.RideInfo
+        };
+        frame.topmost().transition = {name: "slideLeft"};
+
+        frame.topmost().navigate(navigationEntry);
+    };
     viewModel.seatsManage = {
         Add: function () {
             if (viewModel.RideInfo.seats < 12) {
@@ -155,6 +166,10 @@ function onNavigatingTo(args) {
     viewModel.OpendatePicker = function () {
         var SelectedDate = new Date(viewModel.RideInfo.travel_date_time);
         console.log(SelectedDate);
+        console.log(viewModel.RideInfo.travel_date_time);
+        if (viewModel.RideInfo.travel_date_time == undefined) {
+            SelectedDate = new Date();
+        }
         PickerManager.init(function (date) {
             if (date) {
                 console.log(date);
@@ -187,20 +202,25 @@ function onNavigatingTo(args) {
             alert("Destination Field is required")
             return;
         }
-        if (cars_empty == true) {
+        try {
+            viewModel.RideInfo.carId = cars[viewModel.carindex].id;
+
+        } catch (er) {
             alert("Please select a car before Submit");
             return;
-        }
+
+        } 
+
         viewModel.RideInfo.description = viewModel.RideInfo.description.trim();
         if (viewModel.RideInfo.description.length == 0) {
             console.log(viewModel.RideInfo.description);
             alert("Description is required");
             return;
         }
-        if (cars_empty != true) {
+        if (cars_empty == true) {
             viewModel.RideInfo.carId = cars[viewModel.carindex].id;
         }
-  
+
         var finishLoader = loader("Loading...");
         finishLoader.show();
         http.request({
@@ -213,8 +233,15 @@ function onNavigatingTo(args) {
             content: JSON.stringify(viewModel.RideInfo)
         }).then(function (response) {
             finishLoader.hide();
-            console.log(JSON.stringify(response));
-        }, function (e) {
+            var navigationEntry = {
+                backstackVisible: true,
+                moduleName: '/Views/Ride-Lists/Ride-Lists',
+                context: {restrict: "OFFERED_RIDES"}
+            };
+            frame.topmost().transition = {name: "slideLeft"};
+            frame.topmost().navigate(navigationEntry);
+            
+         }, function (e) {
             finishLoader.hide();
             console.error(e);
         });
@@ -276,7 +303,6 @@ exports.deleteWaypoints = function (args) {
             viewModel.RideInfo.waypoints_id.splice(index, 1);
             viewModel.WayPoints.splice(index, 1);
             listwaypoints.height = listwaypoints.height - 50;
-
             clearMap();
             onMapReady(Map_args);
         }
@@ -345,9 +371,10 @@ function onMapReady(args) {
             }
         })
             .then(function () {
-                
+
             });
     }
+
     setUpmarkers();
 
 }
@@ -363,11 +390,9 @@ function RouteFind() {
             try {
                 console.log("Waypoint Order ", JSON.stringify(viewModel.WayPoints));
                 console.log("Waypoint Order ", JSON.stringify(order));
-            }catch (er){
+            } catch (er) {
                 console.log(er);
             }
-
-
             FareManage(distance);
             var zoomLevel = 1;
             var latnorth = data.routes[0].bounds.northeast.lat;

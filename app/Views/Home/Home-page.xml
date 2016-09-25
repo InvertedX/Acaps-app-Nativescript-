@@ -74,13 +74,16 @@
                                             <Label marginTop="10" text="{{user.type}}" textAlignment="center"
                                                    fontSize="14"
                                                    style="color: rgba(0, 0, 0, 0.67)"/>
+                                            <Button   text="Logout" tap="{{logout}}" cssClass="choosebox" color="Black"/>
+
                                         </StackLayout>
                                     </GridLayout>
                                 </Card:CardView>
                                 <GridLayout>
-                                    <StackLayout>
-                                        <Button tap="my" cssClass="mButtons" color="Black" text="My Rides"/>
-                                        <Button cssClass="mButtons" color="Black" text="Ride Requests"/>
+                                    <StackLayout margin="45" marginTop="20" marginBottom="25">
+                                        <Button tap="{{myrides}}" cssClass="mButtons" color="Black" text="My Rides"/>
+                                        <Button tap="{{requested}}" cssClass="mButtons" color="Black"
+                                                text="Ride Requests"/>
                                         <Button cssClass="mButtons" tap="{{carmanage}}" color="Black" text="My Cars"/>
                                     </StackLayout>
                                 </GridLayout>

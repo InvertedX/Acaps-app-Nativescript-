@@ -14,6 +14,7 @@ function placefinder(place, call) {
     console.log("URL", _placesApiUrl);
     http.getJSON(_placesApiUrl).then(function (r) {
         console.log(r.status);
+        console.dump(r);
         call(r.predictions)
     }, function () {
 
